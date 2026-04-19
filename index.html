@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🌍 旅遊記帳工具 v4.0</title>
+<title>🌍 旅遊記帳工具 v4.1</title>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <style>
 :root {
@@ -26,24 +26,28 @@ body {
   color: var(--text);
   line-height: 1.6;
 }
-.container { max-width: 800px; margin: 0 auto; padding: 18px; }
+.container { max-width: 800px; margin: 0 auto; padding: 16px; }
+
+/* 標題 */
 .header {
   text-align: center;
   background: linear-gradient(135deg, var(--primary), #9B59B6);
   color: white;
-  padding: 24px 18px;
+  padding: 22px 16px;
   border-radius: var(--radius);
-  margin-bottom: 18px;
+  margin-bottom: 16px;
   box-shadow: var(--shadow);
 }
-.header h1 { font-size: 1.75rem; margin-bottom: 6px; }
-.header p { opacity: 0.9; font-size: 0.88rem; }
+.header h1 { font-size: 1.7rem; margin-bottom: 6px; }
+.header p { opacity: 0.9; font-size: 0.86rem; }
+
+/* 頁籤 */
 .tabs {
   display: flex;
   background: white;
   border-radius: var(--radius);
   padding: 4px;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
   box-shadow: var(--shadow);
   gap: 3px;
 }
@@ -62,34 +66,33 @@ body {
 .tab-btn.active { background: var(--primary); color: white; }
 .tab-content { display: none; }
 .tab-content.active { display: block; }
+
+/* 卡片 */
 .card {
   background: var(--card);
   border-radius: var(--radius);
-  padding: 20px;
-  margin-bottom: 18px;
+  padding: 18px;
+  margin-bottom: 16px;
   box-shadow: var(--shadow);
 }
 .card-title {
   font-size: 1.05rem;
   font-weight: 700;
   color: var(--primary);
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   display: flex;
   align-items: center;
   gap: 7px;
 }
-.form-row {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 14px;
-  flex-wrap: wrap;
-}
-.form-group { flex: 1; min-width: 140px; }
+
+/* 表單 */
+.form-row { display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+.form-group { flex: 1; min-width: 130px; }
 .form-group label {
   display: block;
   font-weight: 600;
   margin-bottom: 6px;
-  font-size: 0.85rem;
+  font-size: 0.84rem;
 }
 .form-group input,
 .form-group select {
@@ -112,12 +115,13 @@ body {
 .store-suggestions {
   position: absolute;
   top: 100%;
-  left: 0; right: 0;
+  left: 0;
+  right: 0;
   background: white;
   border: 2px solid var(--primary);
   border-radius: 10px;
-  z-index: 100;
-  max-height: 150px;
+  z-index: 200;
+  max-height: 140px;
   overflow-y: auto;
   display: none;
   box-shadow: var(--shadow);
@@ -125,102 +129,114 @@ body {
 .store-suggestion-item {
   padding: 10px 14px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   border-bottom: 1px solid var(--border);
   transition: background 0.15s;
 }
 .store-suggestion-item:last-child { border-bottom: none; }
 .store-suggestion-item:hover { background: rgba(108,99,255,0.08); }
 
-/* 購物車系統 */
-.cart-section { margin-bottom: 16px; }
-.cart-title {
-  font-weight: 700;
-  font-size: 0.9rem;
-  margin-bottom: 12px;
+/* ══════════════════════════════════════
+   購物車 — 手機優化版本
+══════════════════════════════════════ */
+.cart-section { margin-bottom: 14px; }
+.cart-section-title {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-.cart-items { margin-bottom: 12px; }
-.cart-item {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  padding: 12px;
-  background: #F8F9FF;
-  border-radius: 10px;
   margin-bottom: 10px;
-  border: 1px solid var(--border);
-}
-.cart-item-category {
-  width: 80px;
-  padding: 8px 6px;
-  border: 2px solid var(--border);
-  border-radius: 8px;
-  font-size: 0.8rem;
-  background: white;
-}
-.cart-item-name {
-  flex: 2;
-  padding: 8px 10px;
-  border: 2px solid var(--border);
-  border-radius: 8px;
-  font-size: 0.88rem;
-  min-width: 0;
-}
-.cart-item-name:focus { outline: none; border-color: var(--primary); }
-.cart-item-qty {
-  width: 60px;
-  padding: 8px 6px;
-  border: 2px solid var(--border);
-  border-radius: 8px;
-  font-size: 0.88rem;
-  text-align: center;
-}
-.cart-item-price {
-  flex: 1.2;
-  padding: 8px 10px;
-  border: 2px solid var(--border);
-  border-radius: 8px;
-  font-size: 0.88rem;
-  min-width: 0;
-}
-.cart-item-subtotal {
   font-weight: 700;
-  font-size: 0.85rem;
-  color: var(--primary);
-  min-width: 60px;
-  text-align: right;
-  white-space: nowrap;
+  font-size: 0.9rem;
 }
+
+/* 每個商品卡片 */
+.cart-item-card {
+  background: #F8F9FF;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 12px;
+  position: relative;
+  transition: border-color 0.2s;
+}
+.cart-item-card:focus-within { border-color: var(--primary); }
+
+/* 刪除按鈕（右上角） */
 .cart-item-del {
-  width: 28px; height: 28px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 26px;
+  height: 26px;
   border: none;
   background: var(--danger);
   color: white;
   border-radius: 7px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
 }
-.cart-header {
+
+/* 商品卡片內的欄位 */
+.cart-field { margin-bottom: 10px; }
+.cart-field:last-child { margin-bottom: 0; }
+.cart-field label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #888;
+  margin-bottom: 4px;
+}
+.cart-field input,
+.cart-field select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid var(--border);
+  border-radius: 9px;
+  font-size: 0.92rem;
+  background: white;
+  transition: border-color 0.2s;
+}
+.cart-field input:focus,
+.cart-field select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* 數量 + 單價 並排 */
+.cart-row2 { display: flex; gap: 10px; }
+.cart-row2 .cart-field { flex: 1; margin-bottom: 0; }
+
+/* 小計顯示 */
+.cart-subtotal {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: white;
+  border-radius: 9px;
+  border: 2px solid var(--primary);
   display: flex;
-  gap: 8px;
-  padding: 0 12px;
-  margin-bottom: 8px;
-  font-size: 0.75rem;
-  color: #999;
+  justify-content: space-between;
+  align-items: center;
+}
+.cart-subtotal-label {
+  font-size: 0.78rem;
+  color: #888;
   font-weight: 600;
 }
+.cart-subtotal-value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+/* 新增商品按鈕 */
 .btn-add-item {
   width: 100%;
-  padding: 12px;
+  padding: 13px;
   border: 2px dashed var(--primary);
-  border-radius: 10px;
+  border-radius: 11px;
   background: rgba(108,99,255,0.04);
   color: var(--primary);
   font-weight: 700;
@@ -229,52 +245,25 @@ body {
   transition: all 0.2s;
 }
 .btn-add-item:hover { background: rgba(108,99,255,0.1); }
-.cart-total-row {
+
+/* 購物車合計 */
+.cart-total-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 12px 14px;
-  background: linear-gradient(135deg, rgba(108,99,255,0.08), rgba(155,89,182,0.08));
+  background: linear-gradient(135deg,rgba(108,99,255,0.08),rgba(155,89,182,0.08));
   border-radius: 10px;
-  margin-top: 12px;
+  margin-top: 10px;
   font-weight: 700;
 }
-
-/* 退稅面板 */
-.tax-panel {
-  background: linear-gradient(135deg, #FF6B9D, #C44569);
-  border-radius: 12px;
-  padding: 16px;
-  color: white;
-  margin-bottom: 16px;
-  display: none;
-}
-.tax-panel.show { display: block; }
-.tax-panel label { color: rgba(255,255,255,0.9); }
-.tax-panel input, .tax-panel select {
-  background: rgba(255,255,255,0.2);
-  border: 1px solid rgba(255,255,255,0.4);
-  color: white;
-}
-.tax-panel input::placeholder { color: rgba(255,255,255,0.7); }
-.tax-info {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 14px;
-  padding-top: 14px;
-  border-top: 1px solid rgba(255,255,255,0.3);
-  flex-wrap: wrap;
-  gap: 12px;
-}
-.tax-info-item { text-align: center; }
-.tax-info-value { font-size: 1rem; font-weight: 700; margin-top: 4px; }
 
 /* 付款方式 */
 .payment-methods {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 .payment-btn {
   padding: 12px 8px;
@@ -300,7 +289,7 @@ body {
   border-radius: 12px;
   padding: 16px;
   color: white;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   display: none;
 }
 .credit-panel.show { display: block; }
@@ -314,23 +303,51 @@ body {
 .credit-info {
   display: flex;
   justify-content: space-around;
-  margin-top: 14px;
-  padding-top: 14px;
+  margin-top: 12px;
+  padding-top: 12px;
   border-top: 1px solid rgba(255,255,255,0.3);
 }
 .credit-info-item { text-align: center; }
-.credit-info-value { font-size: 0.95rem; font-weight: 700; margin-top: 4px; }
+.credit-info-value { font-size: 0.95rem; font-weight: 700; margin-top: 3px; }
+
+/* 退稅面板 */
+.tax-panel {
+  background: linear-gradient(135deg, #FF6B9D, #C44569);
+  border-radius: 12px;
+  padding: 16px;
+  color: white;
+  margin-bottom: 14px;
+  display: none;
+}
+.tax-panel.show { display: block; }
+.tax-panel label { color: rgba(255,255,255,0.9); }
+.tax-panel input, .tax-panel select {
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.4);
+  color: white;
+}
+.tax-panel input::placeholder { color: rgba(255,255,255,0.7); }
+.tax-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.3);
+}
+.tax-info-item { text-align: center; }
+.tax-info-value { font-size: 0.9rem; font-weight: 700; margin-top: 3px; }
 
 /* 付款人 */
-.payer-section { margin-bottom: 16px; }
-.payer-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.payer-section { margin-bottom: 14px; }
+.payer-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 9px; }
 .payer-tag {
-  padding: 7px 16px;
+  padding: 6px 14px;
   border: 2px solid var(--border);
   border-radius: 20px;
   cursor: pointer;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.83rem;
   transition: all 0.2s;
   background: white;
 }
@@ -342,90 +359,173 @@ body {
 .payer-add-row { display: flex; gap: 8px; }
 .payer-add-row input {
   flex: 1;
-  padding: 8px 12px;
+  padding: 9px 12px;
   border: 2px solid var(--border);
   border-radius: 10px;
   font-size: 0.88rem;
 }
 .btn-add-payer {
-  padding: 8px 16px;
+  padding: 9px 14px;
   background: var(--primary);
   color: white;
   border: none;
   border-radius: 10px;
   cursor: pointer;
   font-weight: 600;
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   white-space: nowrap;
 }
 
-/* 收據上傳 */
-.receipt-upload {
+/* ══════════════════════════════════════
+   照片上傳區（支援多張 + 壓縮）
+══════════════════════════════════════ */
+.photo-section { margin-bottom: 14px; }
+.photo-upload-area {
   border: 3px dashed var(--border);
   border-radius: 12px;
-  padding: 22px;
+  padding: 20px;
   text-align: center;
   cursor: pointer;
   transition: all 0.2s;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
-.receipt-upload:hover { border-color: var(--primary); background: rgba(108,99,255,0.04); }
-.receipt-upload input { display: none; }
-.receipt-preview { max-width: 100%; max-height: 160px; border-radius: 10px; margin: 12px 0; }
+.photo-upload-area:hover {
+  border-color: var(--primary);
+  background: rgba(108,99,255,0.04);
+}
+.photo-upload-area input { display: none; }
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+.photo-thumb-wrap {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  border: 2px solid var(--border);
+}
+.photo-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  display: block;
+}
+.photo-thumb-del {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  background: rgba(239,71,111,0.9);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.photo-thumb-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.55);
+  color: white;
+  font-size: 0.65rem;
+  text-align: center;
+  padding: 3px;
+}
+
 .ocr-status {
   padding: 9px 14px;
   border-radius: 8px;
   margin: 8px 0;
   font-weight: 600;
   display: none;
-  font-size: 0.88rem;
+  font-size: 0.85rem;
 }
-.ocr-status.processing { background: rgba(108,99,255,0.1); color: var(--primary); display: block; }
-.ocr-status.success { background: rgba(67,198,172,0.1); color: #2ecc71; display: block; }
-.ocr-status.error { background: rgba(239,71,111,0.1); color: var(--danger); display: block; }
+.ocr-status.processing {
+  background: rgba(108,99,255,0.1);
+  color: var(--primary);
+  display: block;
+}
+.ocr-status.success {
+  background: rgba(67,198,172,0.1);
+  color: #2ecc71;
+  display: block;
+}
+.ocr-status.error {
+  background: rgba(239,71,111,0.1);
+  color: var(--danger);
+  display: block;
+}
+
+/* 金額顯示 */
+.total-display {
+  background: linear-gradient(135deg, var(--success), #43A047);
+  color: white;
+  padding: 16px;
+  border-radius: 12px;
+  text-align: center;
+  margin: 14px 0;
+}
+.total-main { font-size: 1.35rem; font-weight: 700; }
+.total-sub { font-size: 0.82rem; opacity: 0.9; margin-top: 5px; }
+.total-tax {
+  background: linear-gradient(135deg, #FF6B9D, #C44569);
+  color: white;
+  padding: 11px 16px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: none;
+  margin-top: 8px;
+}
+.total-tax.show { display: block; }
 
 /* 按鈕 */
 .btn {
-  padding: 14px 22px;
+  padding: 14px;
   border: none;
   border-radius: 10px;
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
   width: 100%;
 }
-.btn-primary { background: linear-gradient(135deg, var(--primary), #9B59B6); color: white; }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(108,99,255,0.3); }
-.btn-warning { background: linear-gradient(135deg, var(--warning), #F39C12); color: #333; }
-.btn-cancel { background: #95A5A6; color: white; margin-top: 10px; display: none; }
-
-.total-display {
-  background: linear-gradient(135deg, var(--success), #43A047);
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), #9B59B6);
   color: white;
-  padding: 18px;
-  border-radius: 12px;
-  text-align: center;
-  margin: 16px 0;
 }
-.total-main { font-size: 1.4rem; font-weight: 700; }
-.total-sub { font-size: 0.85rem; opacity: 0.9; margin-top: 6px; }
-.total-tax {
-  background: linear-gradient(135deg, #FF6B9D, #C44569);
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(108,99,255,0.3);
+}
+.btn-warning {
+  background: linear-gradient(135deg, var(--warning), #F39C12);
+  color: #333;
+}
+.btn-cancel {
+  background: #95A5A6;
   color: white;
-  padding: 12px 18px;
-  border-radius: 10px;
-  text-align: center;
-  margin-top: 10px;
-  font-weight: 700;
-  font-size: 1rem;
+  margin-top: 9px;
   display: none;
 }
-.total-tax.show { display: block; }
 
-/* 明細列表 */
+/* ══════════════════════════════════════
+   支出明細列表
+══════════════════════════════════════ */
 .expense-item {
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   border-radius: 12px;
   margin-bottom: 12px;
   background: white;
@@ -433,21 +533,57 @@ body {
   transition: box-shadow 0.2s;
 }
 .expense-item:hover { box-shadow: var(--shadow); }
-.expense-main {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 16px;
+
+.expense-main { padding: 14px; }
+.expense-top { display: flex; gap: 12px; align-items: flex-start; }
+.expense-info { flex: 1; min-width: 0; }
+.expense-store {
+  font-size: 0.88rem;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 4px;
 }
-.expense-info { flex: 1; }
-.expense-info h4 { margin: 0 0 6px 0; font-size: 0.95rem; }
-.expense-store { font-size: 0.85rem; color: var(--primary); font-weight: 600; margin-bottom: 6px; }
-.expense-meta { font-size: 0.8rem; color: #777; line-height: 1.6; }
-.expense-amount { text-align: right; font-weight: 700; flex-shrink: 0; margin-left: 12px; }
+.expense-info h4 { font-size: 0.92rem; margin: 0 0 5px; }
+.expense-meta { font-size: 0.78rem; color: #777; line-height: 1.6; }
+.expense-amount {
+  text-align: right;
+  font-weight: 700;
+  flex-shrink: 0;
+  min-width: 90px;
+}
+
+/* 照片縮圖列（在明細中） */
+.expense-photos {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 10px 14px;
+  border-top: 1px solid var(--border);
+  background: #FAFBFF;
+}
+.expense-photo-thumb {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid var(--border);
+  transition: border-color 0.2s;
+}
+.expense-photo-thumb:hover { border-color: var(--primary); }
+.expense-photo-label {
+  font-size: 0.7rem;
+  text-align: center;
+  color: #888;
+  margin-top: 3px;
+  font-weight: 600;
+}
+
+/* 商品明細展開 */
 .expense-items-detail {
   background: #F8F9FF;
   border-top: 1px solid var(--border);
-  padding: 12px 16px;
+  padding: 12px 14px;
   display: none;
 }
 .expense-items-detail.show { display: block; }
@@ -460,62 +596,105 @@ body {
   color: #555;
 }
 .detail-item:last-child { border-bottom: none; }
-.action-btns { display: flex; gap: 8px; margin-top: 10px; }
+
+.action-btns { display: flex; gap: 7px; margin-top: 9px; flex-wrap: wrap; }
 .action-btn {
-  padding: 6px 12px;
+  padding: 6px 11px;
   border-radius: 7px;
   border: none;
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
   transition: all 0.2s;
 }
 .btn-edit { background: var(--warning); color: #333; }
 .btn-delete { background: var(--danger); color: white; }
 .btn-toggle { background: var(--border); color: var(--text); }
+
 .badge {
   display: inline-block;
   padding: 2px 7px;
   border-radius: 10px;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 600;
-  margin-left: 5px;
+  margin-left: 4px;
 }
-.badge-bulk { background: rgba(255,166,0,0.2); color: #e67e22; }
-.badge-payer { background: rgba(67,198,172,0.2); color: #27ae60; }
 .badge-tax { background: rgba(255,107,157,0.2); color: #c44569; }
-.badge-store { background: rgba(108,99,255,0.15); color: var(--primary); }
+.badge-payer { background: rgba(67,198,172,0.2); color: #27ae60; }
+
+/* ══════════════════════════════════════
+   燈箱（全螢幕照片預覽）
+══════════════════════════════════════ */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 9999;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox.show { display: flex; }
+.lightbox img {
+  max-width: 95vw;
+  max-height: 85vh;
+  border-radius: 12px;
+  object-fit: contain;
+}
+.lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  color: white;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox-caption {
+  color: rgba(255,255,255,0.8);
+  font-size: 0.85rem;
+  margin-top: 12px;
+  text-align: center;
+}
 
 /* 統計 */
 .stat-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 14px;
-  margin-bottom: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
 }
 .stat-card {
   color: white;
-  padding: 18px;
+  padding: 16px;
   border-radius: 12px;
   text-align: center;
 }
-.stat-card .value { font-size: 1.3rem; font-weight: 700; margin: 8px 0 4px; }
-.stat-card .label { opacity: 0.9; font-size: 0.82rem; }
+.stat-card .value { font-size: 1.25rem; font-weight: 700; margin: 6px 0 3px; }
+.stat-card .label { opacity: 0.9; font-size: 0.78rem; }
 .stat-block {
   background: white;
-  padding: 18px;
+  padding: 16px;
   border-radius: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   border: 1px solid var(--border);
 }
-.stat-block h3 { color: var(--primary); margin-bottom: 14px; font-size: 0.98rem; }
+.stat-block h3 { color: var(--primary); margin-bottom: 12px; font-size: 0.93rem; }
 .stat-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0;
+  padding: 9px 0;
   border-bottom: 1px solid var(--border);
-  font-size: 0.88rem;
+  font-size: 0.85rem;
 }
 .stat-row:last-child { border-bottom: none; }
 
@@ -523,40 +702,42 @@ body {
 .export-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-top: 14px;
+  gap: 10px;
+  margin-top: 12px;
 }
 .export-btn {
-  padding: 16px 10px;
+  padding: 16px 8px;
   border: 2px solid var(--border);
   border-radius: 12px;
   background: white;
   cursor: pointer;
   text-align: center;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.83rem;
   transition: all 0.2s;
 }
-.export-btn:hover { border-color: var(--primary); background: rgba(108,99,255,0.06); }
-.export-icon { font-size: 1.8rem; display: block; margin-bottom: 8px; }
-
-@media (max-width: 600px) {
-  .form-row { flex-direction: column; gap: 12px; }
-  .form-group { min-width: auto; }
-  .expense-main { flex-direction: column; }
-  .expense-amount { text-align: left; margin-left: 0; margin-top: 10px; }
-  .cart-item { flex-wrap: wrap; }
-  .cart-item-category, .cart-item-qty { width: auto; flex: 1; }
+.export-btn:hover {
+  border-color: var(--primary);
+  background: rgba(108,99,255,0.06);
 }
+.export-icon { font-size: 1.7rem; display: block; margin-bottom: 7px; }
 </style>
 </head>
 <body>
+
+<!-- 燈箱 -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt="">
+  <div class="lightbox-caption" id="lightboxCaption"></div>
+</div>
+
 <div class="container">
 
   <!-- 標題 -->
   <div class="header">
-    <h1>🌍 旅遊記帳工具 v4.0</h1>
-    <p>商店名稱 • 多筆項目 • 即時退稅 • 智能分帳</p>
+    <h1>🌍 旅遊記帳工具 v4.1</h1>
+    <p>介面優化 • 照片記錄 • 智能壓縮</p>
   </div>
 
   <!-- 頁籤 -->
@@ -570,24 +751,25 @@ body {
   <!-- ===== 新增支出 ===== -->
   <div id="tab-add" class="tab-content active">
 
-    <!-- 收據辨識 -->
-    <div class="card" id="receiptCard">
-      <div class="card-title">📷 收據自動辨識</div>
-      <div class="receipt-upload" onclick="document.getElementById('receiptFile').click()">
-        <input type="file" id="receiptFile" accept="image/*" capture="environment" onchange="handleReceiptUpload(event)">
-        <div style="font-size:2rem;margin-bottom:8px">📸</div>
-        <p><strong>點擊拍照或上傳收據</strong></p>
-        <p style="color:#999;font-size:0.82rem;margin-top:4px">自動辨識商店名稱和金額</p>
+    <!-- 照片上傳（收據 + 商品照） -->
+    <div class="card">
+      <div class="card-title">📷 照片記錄</div>
+      <div class="photo-section">
+        <div class="photo-upload-area" onclick="document.getElementById('photoFile').click()">
+          <input type="file" id="photoFile" accept="image/*" capture="environment" multiple onchange="handlePhotoUpload(event)">
+          <div style="font-size:2rem;margin-bottom:6px">📸</div>
+          <p style="font-weight:700">點擊拍照或上傳圖片</p>
+          <p style="color:#999;font-size:0.8rem;margin-top:4px">可上傳多張（收據、商品照片）</p>
+        </div>
+        <div class="ocr-status" id="ocrStatus"></div>
+        <div class="photo-grid" id="photoGrid"></div>
       </div>
-      <img id="receiptPreview" class="receipt-preview" style="display:none">
-      <div id="ocrStatus" class="ocr-status"></div>
     </div>
 
     <!-- 支出表單 -->
     <div class="card">
       <div class="card-title" id="formTitle">💰 支出資訊</div>
 
-      <!-- 基本資訊 -->
       <div class="form-row">
         <div class="form-group">
           <label>📅 日期</label>
@@ -596,7 +778,8 @@ body {
         <div class="form-group">
           <label>🏪 商店名稱</label>
           <div class="store-wrap">
-            <input type="text" id="storeName" placeholder="例：唐吉訶德、一蘭拉麵" oninput="showStoreSuggestions()" onblur="hideStoreSuggestions()" autocomplete="off">
+            <input type="text" id="storeName" placeholder="例：唐吉訶德、一蘭拉麵"
+              oninput="showStoreSuggestions()" onblur="hideStoreSuggestions()" autocomplete="off">
             <div class="store-suggestions" id="storeSuggestions"></div>
           </div>
         </div>
@@ -623,31 +806,23 @@ body {
         </div>
       </div>
 
-      <!-- 購物車 -->
+      <!-- ══ 購物車（手機優化設計） ══ -->
       <div class="cart-section">
-        <div class="cart-title">
+        <div class="cart-section-title">
           <span>🛒 購買項目</span>
-          <span id="cartCount" style="font-size:0.8rem;color:#999">0 件商品</span>
+          <span id="cartCount" style="font-size:0.78rem;color:#aaa;font-weight:400">0 件</span>
         </div>
-        <div class="cart-header">
-          <span style="width:80px">分類</span>
-          <span style="flex:2">商品名稱</span>
-          <span style="width:60px;text-align:center">數量</span>
-          <span style="flex:1.2;text-align:right">單價</span>
-          <span style="min-width:60px;text-align:right">小計</span>
-          <span style="width:28px"></span>
-        </div>
-        <div class="cart-items" id="cartItems"></div>
+        <div id="cartItems"></div>
         <button class="btn-add-item" onclick="addCartItem()">＋ 新增商品</button>
-        <div class="cart-total-row" id="cartTotalRow" style="display:none">
-          <span>商品合計</span>
-          <span id="cartTotalForeign" style="color:var(--primary);font-size:1.05rem">0</span>
+        <div class="cart-total-bar" id="cartTotalBar" style="display:none">
+          <span style="font-size:0.88rem">商品合計</span>
+          <span id="cartTotalForeign" style="color:var(--primary);font-size:1rem">0</span>
         </div>
       </div>
 
       <!-- 付款方式 -->
-      <div style="margin-bottom:16px">
-        <label style="font-weight:600;margin-bottom:10px;display:block;font-size:0.85rem">💳 付款方式</label>
+      <div style="margin-bottom:14px">
+        <label style="font-weight:700;margin-bottom:10px;display:block;font-size:0.85rem">💳 付款方式</label>
         <div class="payment-methods">
           <div class="payment-btn selected" data-method="credit" onclick="selectPaymentMethod('credit')">
             <span class="payment-icon">💳</span>信用卡
@@ -663,7 +838,7 @@ body {
 
       <!-- 信用卡面板 -->
       <div id="creditPanel" class="credit-panel show">
-        <div style="font-weight:700;margin-bottom:14px">💳 信用卡設定</div>
+        <div style="font-weight:700;margin-bottom:12px">💳 信用卡設定</div>
         <div class="form-row">
           <div class="form-group">
             <label>卡片名稱</label>
@@ -676,41 +851,41 @@ body {
         </div>
         <div class="credit-info">
           <div class="credit-info-item">
-            <div style="font-size:0.75rem;opacity:0.85">基本金額</div>
+            <div style="font-size:0.72rem;opacity:0.85">基本金額</div>
             <div class="credit-info-value" id="baseAmount">NT$ 0</div>
           </div>
           <div class="credit-info-item">
-            <div style="font-size:0.75rem;opacity:0.85">手續費</div>
+            <div style="font-size:0.72rem;opacity:0.85">手續費</div>
             <div class="credit-info-value" id="feeAmount">NT$ 0</div>
           </div>
           <div class="credit-info-item">
-            <div style="font-size:0.75rem;opacity:0.85">含費總計</div>
+            <div style="font-size:0.72rem;opacity:0.85">含費總計</div>
             <div class="credit-info-value" id="totalWithFee">NT$ 0</div>
           </div>
         </div>
       </div>
 
       <!-- 退稅面板 -->
-      <div style="margin-bottom:16px">
+      <div style="margin-bottom:14px">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-          <label style="font-weight:600;font-size:0.85rem">💰 退稅計算</label>
+          <label style="font-weight:700;font-size:0.85rem">💰 退稅計算</label>
           <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:0.88rem">
             <input type="checkbox" id="taxRefundEnabled" onchange="toggleTaxPanel()" style="width:auto">
             啟用退稅
           </label>
         </div>
         <div id="taxPanel" class="tax-panel">
-          <div style="font-weight:700;margin-bottom:14px">🧾 退稅設定</div>
+          <div style="font-weight:700;margin-bottom:12px">🧾 退稅設定</div>
           <div class="form-row">
             <div class="form-group">
               <label>退稅國家</label>
               <select id="taxCountry" onchange="onTaxCountryChange()">
-                <option value="JP" data-rate="10" data-min="5000">🇯🇵 日本 (消費稅10%)</option>
-                <option value="KR" data-rate="10" data-min="30000">🇰🇷 韓國 (VAT 10%)</option>
-                <option value="TH" data-rate="7" data-min="2000">🇹🇭 泰國 (VAT 7%)</option>
-                <option value="EU" data-rate="20" data-min="175">🇪🇺 歐盟 (VAT 20%)</option>
-                <option value="GB" data-rate="20" data-min="0">🇬🇧 英國 (VAT 20%)</option>
-                <option value="SG" data-rate="9" data-min="100">🇸🇬 新加坡 (GST 9%)</option>
+                <option value="JP" data-rate="10" data-min="5000">🇯🇵 日本 10%</option>
+                <option value="KR" data-rate="10" data-min="30000">🇰🇷 韓國 10%</option>
+                <option value="TH" data-rate="7"  data-min="2000">🇹🇭 泰國 7%</option>
+                <option value="EU" data-rate="20" data-min="175">🇪🇺 歐盟 20%</option>
+                <option value="GB" data-rate="20" data-min="0">🇬🇧 英國 20%</option>
+                <option value="SG" data-rate="9"  data-min="100">🇸🇬 新加坡 9%</option>
                 <option value="custom">⚙️ 自訂</option>
               </select>
             </div>
@@ -721,30 +896,30 @@ body {
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label>最低退稅門檻（外幣）</label>
-              <input type="number" id="taxMinAmount" value="5000" step="1" oninput="calculateTotal()">
+              <label>最低門檻（外幣）</label>
+              <input type="number" id="taxMinAmount" value="5000" oninput="calculateTotal()">
             </div>
             <div class="form-group">
-              <label>退稅手續費率 (%)</label>
+              <label>手續費率 (%)</label>
               <input type="number" id="taxHandlingFee" value="1.5" step="0.1" oninput="calculateTotal()">
             </div>
           </div>
           <div class="tax-info">
             <div class="tax-info-item">
-              <div style="font-size:0.75rem;opacity:0.85">稅金金額</div>
-              <div class="tax-info-value" id="taxAmount">0</div>
+              <div style="font-size:0.72rem;opacity:0.85">稅金金額</div>
+              <div class="tax-info-value" id="taxAmount">-</div>
             </div>
             <div class="tax-info-item">
-              <div style="font-size:0.75rem;opacity:0.85">手續費扣除</div>
-              <div class="tax-info-value" id="taxHandling">0</div>
+              <div style="font-size:0.72rem;opacity:0.85">手續費扣除</div>
+              <div class="tax-info-value" id="taxHandling">-</div>
             </div>
             <div class="tax-info-item">
-              <div style="font-size:0.75rem;opacity:0.85">實際退稅（外幣）</div>
-              <div class="tax-info-value" id="taxRefundForeign">0</div>
+              <div style="font-size:0.72rem;opacity:0.85">退稅（外幣）</div>
+              <div class="tax-info-value" id="taxRefundForeign">-</div>
             </div>
             <div class="tax-info-item">
-              <div style="font-size:0.75rem;opacity:0.85">退稅（台幣）</div>
-              <div class="tax-info-value" id="taxRefundTWD">NT$ 0</div>
+              <div style="font-size:0.72rem;opacity:0.85">退稅（台幣）</div>
+              <div class="tax-info-value" id="taxRefundTWD">-</div>
             </div>
           </div>
         </div>
@@ -752,10 +927,11 @@ body {
 
       <!-- 誰付款 -->
       <div class="payer-section">
-        <label style="font-weight:600;margin-bottom:8px;display:block;font-size:0.85rem">👤 誰付款</label>
+        <label style="font-weight:700;margin-bottom:8px;display:block;font-size:0.85rem">👤 誰付款</label>
         <div class="payer-tags" id="payerTags"></div>
         <div class="payer-add-row">
-          <input type="text" id="newPayerInput" placeholder="新增成員（如：小明）" onkeydown="if(event.key==='Enter')addPayer()">
+          <input type="text" id="newPayerInput" placeholder="新增成員（如：小明）"
+            onkeydown="if(event.key==='Enter')addPayer()">
           <button class="btn-add-payer" onclick="addPayer()">＋ 新增</button>
         </div>
       </div>
@@ -789,7 +965,7 @@ body {
     </div>
   </div>
 
-  <!-- ===== 統計分析 ===== -->
+  <!-- ===== 統計 ===== -->
   <div id="tab-stats" class="tab-content">
     <div class="card">
       <div class="card-title">📊 統計分析</div>
@@ -801,104 +977,79 @@ body {
   <div id="tab-export" class="tab-content">
     <div class="card">
       <div class="card-title">📤 匯出報表</div>
-      <p style="color:#777;font-size:0.88rem;margin-bottom:14px">選擇格式匯出您的記帳資料</p>
+      <p style="color:#777;font-size:0.85rem;margin-bottom:12px">選擇格式匯出記帳資料</p>
       <div class="export-grid">
         <div class="export-btn" onclick="exportCSV()">
-          <span class="export-icon">📊</span>
-          <strong>CSV 試算表</strong>
-          <div style="font-size:0.75rem;color:#999;margin-top:4px">Excel / Numbers</div>
+          <span class="export-icon">📊</span><strong>CSV 試算表</strong>
+          <div style="font-size:0.73rem;color:#aaa;margin-top:3px">Excel / Numbers</div>
         </div>
         <div class="export-btn" onclick="exportJSON()">
-          <span class="export-icon">💾</span>
-          <strong>JSON 備份</strong>
-          <div style="font-size:0.75rem;color:#999;margin-top:4px">完整資料備份</div>
+          <span class="export-icon">💾</span><strong>JSON 備份</strong>
+          <div style="font-size:0.73rem;color:#aaa;margin-top:3px">完整資料備份</div>
         </div>
         <div class="export-btn" onclick="exportText()">
-          <span class="export-icon">📝</span>
-          <strong>文字報表</strong>
-          <div style="font-size:0.75rem;color:#999;margin-top:4px">LINE / Email 分享</div>
+          <span class="export-icon">📝</span><strong>文字報表</strong>
+          <div style="font-size:0.73rem;color:#aaa;margin-top:3px">LINE / Email</div>
         </div>
         <div class="export-btn" onclick="exportHTML()">
-          <span class="export-icon">🌐</span>
-          <strong>HTML 報表</strong>
-          <div style="font-size:0.75rem;color:#999;margin-top:4px">美觀排版列印</div>
+          <span class="export-icon">🌐</span><strong>HTML 報表</strong>
+          <div style="font-size:0.73rem;color:#aaa;margin-top:3px">美觀列印</div>
         </div>
       </div>
-
-      <!-- 匯入 -->
-      <div style="margin-top:18px;padding-top:16px;border-top:1px solid var(--border)">
-        <div class="card-title" style="margin-bottom:10px">📥 匯入備份</div>
-        <p style="color:#777;font-size:0.85rem;margin-bottom:10px">上傳先前匯出的 JSON 備份還原資料</p>
-        <label style="display:block;padding:14px;border:2px dashed var(--border);border-radius:10px;text-align:center;cursor:pointer;font-weight:600;color:var(--primary);font-size:0.9rem">
+      <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">
+        <div class="card-title" style="margin-bottom:9px">📥 匯入備份</div>
+        <label style="display:block;padding:13px;border:2px dashed var(--border);border-radius:10px;text-align:center;cursor:pointer;font-weight:600;color:var(--primary);font-size:0.88rem">
           📂 選擇 JSON 備份檔案
           <input type="file" accept=".json" onchange="importJSON(event)" style="display:none">
         </label>
       </div>
-
-      <!-- 文字報表預覽 -->
-      <div id="textReportArea" style="display:none;margin-top:16px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <strong style="font-size:0.9rem">📝 文字報表</strong>
-          <button onclick="copyTextReport()" style="padding:7px 14px;background:var(--primary);color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:0.82rem">複製</button>
+      <div id="textReportArea" style="display:none;margin-top:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <strong style="font-size:0.88rem">📝 文字報表</strong>
+          <button onclick="copyTextReport()" style="padding:6px 13px;background:var(--primary);color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:0.8rem">複製</button>
         </div>
-        <textarea id="textReport" style="width:100%;height:250px;padding:12px;border:1px solid var(--border);border-radius:10px;font-size:0.8rem;font-family:monospace;resize:vertical"></textarea>
+        <textarea id="textReport" style="width:100%;height:240px;padding:11px;border:1px solid var(--border);border-radius:10px;font-size:0.78rem;font-family:monospace;resize:vertical"></textarea>
       </div>
     </div>
   </div>
 
-</div>
+</div><!-- /container -->
 
 <script>
 // ==================== 全域變數 ====================
-let expenses  = [];
-let payers    = JSON.parse(localStorage.getItem('travelPayers_v4')   || '["我"]');
-let storeHistory = JSON.parse(localStorage.getItem('travelStores')   || '[]');
-let selectedPayer = payers[0] || '我';
+let expenses     = [];
+let payers       = JSON.parse(localStorage.getItem('travelPayers_v4')  || '["我"]');
+let storeHistory = JSON.parse(localStorage.getItem('travelStores')     || '[]');
+let selectedPayer= payers[0] || '我';
 let currentPaymentMethod = 'credit';
-let ocrProcessing = false;
-let editingId = null;
-let cartItems = [];
+let ocrProcessing= false;
+let editingId    = null;
+let cartItems    = [];
+let currentPhotos= []; // { dataUrl, type:'receipt'|'product', name:'' }
 
-// ==================== 資料遷移與初始化 ====================
+// ==================== 資料遷移 ====================
 function migrateData() {
-  // 檢查是否已有 v4 資料
-  const v4Data = localStorage.getItem('travelExpenses_v4');
-  if (v4Data) {
-    expenses = JSON.parse(v4Data);
-    return;
-  }
-  
-  // 嘗試從 v3 遷移
-  const v3Data = localStorage.getItem('travelExpenses_v3');
-  if (v3Data) {
-    const v3Expenses = JSON.parse(v3Data);
-    expenses = v3Expenses.map(exp => ({
-      id: exp.id,
-      date: exp.date,
-      storeName: exp.name || '未命名商店',
+  const v4 = localStorage.getItem('travelExpenses_v4');
+  if (v4) { expenses = JSON.parse(v4); return; }
+  const v3 = localStorage.getItem('travelExpenses_v3');
+  if (v3) {
+    expenses = JSON.parse(v3).map(exp => ({
+      id: exp.id, date: exp.date,
+      storeName: exp.name || '',
       items: [{
-        id: Date.now() + Math.random(),
-        category: exp.category,
-        name: exp.name,
-        qty: exp.quantity || 1,
-        price: exp.unitPrice || 0,
-        subtotal: (exp.unitPrice || 0) * (exp.quantity || 1)
+        id: Date.now()+Math.random(), category: exp.category,
+        name: exp.name, qty: exp.quantity||1,
+        price: exp.unitPrice||0,
+        subtotal: (exp.unitPrice||0)*(exp.quantity||1)
       }],
-      totalForeign: exp.totalForeign,
-      currency: exp.currency,
-      exchangeRate: exp.exchangeRate,
-      paymentMethod: exp.paymentMethod,
-      cardName: exp.cardName || '',
-      feeRate: exp.feeRate || 0,
-      baseAmount: exp.baseAmount,
-      fee: exp.fee,
-      total: exp.total,
-      taxData: null,
-      payer: exp.payer || '我',
-      note: exp.note || ''
+      totalForeign: exp.totalForeign, currency: exp.currency,
+      exchangeRate: exp.exchangeRate, paymentMethod: exp.paymentMethod,
+      cardName: exp.cardName||'', feeRate: exp.feeRate||0,
+      baseAmount: exp.baseAmount, fee: exp.fee, total: exp.total,
+      taxData: null, payer: exp.payer||'我', note: exp.note||'',
+      photos: []
     }));
     saveExpenses();
-    console.log(`已成功遷移 ${expenses.length} 筆 v3 資料到 v4`);
   }
 }
 
@@ -910,8 +1061,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderPayerTags();
   renderExpenseList();
   renderStats();
-  updatePayerFilter();
-  addCartItem(); // 預設一行
+  addCartItem();
 });
 
 function setTodayDate() {
@@ -922,44 +1072,39 @@ function setTodayDate() {
 function switchTab(name, btn) {
   document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + name).classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
   btn.classList.add('active');
-  if (name === 'stats')  renderStats();
-  if (name === 'list')   renderExpenseList();
+  if (name==='stats') renderStats();
+  if (name==='list')  renderExpenseList();
 }
 
-// ==================== 商店名稱 ====================
+// ==================== 商店 ====================
 function showStoreSuggestions() {
-  const input = document.getElementById('storeName').value.toLowerCase();
-  const box   = document.getElementById('storeSuggestions');
-  if (!input || !storeHistory.length) { box.style.display = 'none'; return; }
-  const matches = storeHistory.filter(s => s.toLowerCase().includes(input));
-  if (!matches.length) { box.style.display = 'none'; return; }
-  box.innerHTML = matches.map(s =>
-    `<div class="store-suggestion-item" onmousedown="selectStore('${s}')">${s}</div>`
-  ).join('');
+  const val = document.getElementById('storeName').value.toLowerCase();
+  const box = document.getElementById('storeSuggestions');
+  if (!val) { box.style.display='none'; return; }
+  const m = storeHistory.filter(s => s.toLowerCase().includes(val));
+  if (!m.length) { box.style.display='none'; return; }
+  box.innerHTML = m.map(s=>`<div class="store-suggestion-item" onmousedown="selectStore('${s.replace(/'/g,"\\'")}')">${s}</div>`).join('');
   box.style.display = 'block';
 }
-
 function hideStoreSuggestions() {
-  setTimeout(() => {
-    document.getElementById('storeSuggestions').style.display = 'none';
-  }, 200);
+  setTimeout(()=>{ document.getElementById('storeSuggestions').style.display='none'; },200);
 }
-
 function selectStore(name) {
   document.getElementById('storeName').value = name;
   document.getElementById('storeSuggestions').style.display = 'none';
 }
-
 function saveStoreHistory(name) {
   if (!name || storeHistory.includes(name)) return;
   storeHistory.unshift(name);
-  if (storeHistory.length > 30) storeHistory.pop();
+  if (storeHistory.length>30) storeHistory.pop();
   localStorage.setItem('travelStores', JSON.stringify(storeHistory));
 }
 
-// ==================== 購物車 ====================
+// ══════════════════════════════════════
+// 購物車（手機優化版）
+// ══════════════════════════════════════
 function addCartItem(name='', qty=1, price='', category='購物') {
   const id = Date.now() + Math.random();
   cartItems.push({ id, name, qty, price, category });
@@ -967,58 +1112,90 @@ function addCartItem(name='', qty=1, price='', category='購物') {
 }
 
 function removeCartItem(id) {
-  if (cartItems.length <= 1) { alert('至少需要一筆項目'); return; }
-  cartItems = cartItems.filter(i => i.id !== id);
+  if (cartItems.length<=1) { alert('至少需要一筆項目'); return; }
+  cartItems = cartItems.filter(i => i.id!==id);
   renderCartItems();
 }
 
 function renderCartItems() {
-  const container = document.getElementById('cartItems');
+  const container  = document.getElementById('cartItems');
   const categories = ['餐飲','交通','住宿','購物','批貨','娛樂','其他'];
-  
-  container.innerHTML = cartItems.map(item => `
-    <div class="cart-item" id="cart-${item.id}">
-      <select class="cart-item-category" oninput="updateCartItem(${item.id},'category',this.value)">
-        ${categories.map(cat => `<option value="${cat}" ${cat === item.category ? 'selected' : ''}>${cat}</option>`).join('')}
-      </select>
-      <input class="cart-item-name" type="text" placeholder="商品名稱" value="${item.name}"
-        oninput="updateCartItem(${item.id},'name',this.value)">
-      <input class="cart-item-qty" type="number" placeholder="數量" value="${item.qty}" min="1"
-        oninput="updateCartItem(${item.id},'qty',this.value)">
-      <input class="cart-item-price" type="number" placeholder="單價" value="${item.price}" step="0.01"
-        oninput="updateCartItem(${item.id},'price',this.value)">
-      <span class="cart-item-subtotal" id="sub-${item.id}">
-        ${item.price ? (parseFloat(item.price) * parseInt(item.qty||1)).toLocaleString() : '-'}
-      </span>
-      <button class="cart-item-del" onclick="removeCartItem(${item.id})">✕</button>
-    </div>`).join('');
+  const currency   = document.getElementById('currency').value;
+
+  container.innerHTML = cartItems.map((item, idx) => {
+    const sub = item.price ? (parseFloat(item.price)*(parseInt(item.qty)||1)) : 0;
+    return `
+    <div class="cart-item-card" id="cart-${item.id}">
+      ${cartItems.length > 1
+        ? `<button class="cart-item-del" onclick="removeCartItem(${item.id})">✕</button>`
+        : ''}
+
+      <div class="cart-field">
+        <label>🏷️ 分類</label>
+        <select class="cart-item-category"
+          oninput="updateCartItem(${item.id},'category',this.value)">
+          ${categories.map(cat =>
+            `<option value="${cat}" ${cat===item.category?'selected':''}>${cat}</option>`
+          ).join('')}
+        </select>
+      </div>
+
+      <div class="cart-field">
+        <label>📦 商品名稱</label>
+        <input type="text" placeholder="請輸入商品名稱"
+          value="${item.name}"
+          oninput="updateCartItem(${item.id},'name',this.value)">
+      </div>
+
+      <div class="cart-row2">
+        <div class="cart-field">
+          <label>🔢 數量</label>
+          <input type="number" placeholder="1" value="${item.qty}" min="1"
+            oninput="updateCartItem(${item.id},'qty',this.value)">
+        </div>
+        <div class="cart-field">
+          <label>💱 單價（${currency}）</label>
+          <input type="number" placeholder="0" value="${item.price}" step="0.01"
+            oninput="updateCartItem(${item.id},'price',this.value)">
+        </div>
+      </div>
+
+      <div class="cart-subtotal">
+        <span class="cart-subtotal-label">小計</span>
+        <span class="cart-subtotal-value" id="sub-${item.id}">
+          ${sub > 0 ? sub.toLocaleString()+' '+currency : '—'}
+        </span>
+      </div>
+    </div>`;
+  }).join('');
+
   updateCartTotal();
 }
 
 function updateCartItem(id, field, value) {
-  const item = cartItems.find(i => i.id === id);
+  const item = cartItems.find(i => i.id===id);
   if (!item) return;
-  item[field] = field === 'qty' ? parseInt(value)||1 : value;
+  item[field] = field==='qty' ? parseInt(value)||1 : value;
   const sub = document.getElementById(`sub-${id}`);
+  const currency = document.getElementById('currency').value;
   if (sub) {
-    sub.textContent = item.price
-      ? (parseFloat(item.price) * (parseInt(item.qty)||1)).toLocaleString()
-      : '-';
+    const val = item.price ? (parseFloat(item.price)*(parseInt(item.qty)||1)) : 0;
+    sub.textContent = val > 0 ? val.toLocaleString()+' '+currency : '—';
   }
   updateCartTotal();
 }
 
 function updateCartTotal() {
-  const total = getCartTotal();
+  const total    = getCartTotal();
   const currency = document.getElementById('currency').value;
-  const count = cartItems.filter(i => i.price && parseFloat(i.price) > 0).length;
-  document.getElementById('cartCount').textContent = `${count} 件商品`;
-  const totalRow = document.getElementById('cartTotalRow');
+  const count    = cartItems.filter(i => i.price && parseFloat(i.price)>0).length;
+  document.getElementById('cartCount').textContent = `${count} 件`;
+  const bar = document.getElementById('cartTotalBar');
   if (total > 0) {
-    totalRow.style.display = 'flex';
+    bar.style.display = 'flex';
     document.getElementById('cartTotalForeign').textContent = `${total.toLocaleString()} ${currency}`;
   } else {
-    totalRow.style.display = 'none';
+    bar.style.display = 'none';
   }
   calculateTotal();
 }
@@ -1026,25 +1203,25 @@ function updateCartTotal() {
 function getCartTotal() {
   return cartItems.reduce((sum, item) => {
     if (!item.price || !parseFloat(item.price)) return sum;
-    return sum + parseFloat(item.price) * (parseInt(item.qty)||1);
+    return sum + parseFloat(item.price)*(parseInt(item.qty)||1);
   }, 0);
 }
 
-// ==================== 幣別 / 匯率 ====================
+// ==================== 幣別 ====================
 function onCurrencyChange() {
   const sel  = document.getElementById('currency');
   const rate = sel.selectedOptions[0].getAttribute('data-rate');
   document.getElementById('exchangeRate').value = rate;
+  renderCartItems(); // 更新幣別顯示
   calculateTotal();
-  updateCartTotal();
 }
 
 // ==================== 付款方式 ====================
 function selectPaymentMethod(method) {
   currentPaymentMethod = method;
-  document.querySelectorAll('.payment-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.payment-btn').forEach(b=>b.classList.remove('selected'));
   document.querySelector(`[data-method="${method}"]`).classList.add('selected');
-  document.getElementById('creditPanel').classList.toggle('show', method === 'credit');
+  document.getElementById('creditPanel').classList.toggle('show', method==='credit');
   calculateTotal();
 }
 
@@ -1054,7 +1231,6 @@ function toggleTaxPanel() {
   document.getElementById('taxPanel').classList.toggle('show', enabled);
   calculateTotal();
 }
-
 function onTaxCountryChange() {
   const sel = document.getElementById('taxCountry');
   const opt = sel.selectedOptions[0];
@@ -1065,15 +1241,15 @@ function onTaxCountryChange() {
   calculateTotal();
 }
 
-// ==================== 計算總金額 ====================
+// ==================== 計算 ====================
 function calculateTotal() {
   const totalForeign = getCartTotal();
-  const rate         = parseFloat(document.getElementById('exchangeRate').value) || 0;
-  const feeRate      = parseFloat(document.getElementById('feeRate').value) || 0;
-  const currency     = document.getElementById('currency').value;
+  const rate    = parseFloat(document.getElementById('exchangeRate').value) || 0;
+  const feeRate = parseFloat(document.getElementById('feeRate').value) || 0;
+  const currency= document.getElementById('currency').value;
 
-  const base = totalForeign * rate;
-  const fee  = currentPaymentMethod === 'credit' ? base * (feeRate / 100) : 0;
+  const base  = totalForeign * rate;
+  const fee   = currentPaymentMethod==='credit' ? base*(feeRate/100) : 0;
   const total = base + fee;
 
   document.getElementById('baseAmount').textContent   = `NT$ ${Math.round(base).toLocaleString()}`;
@@ -1081,37 +1257,33 @@ function calculateTotal() {
   document.getElementById('totalWithFee').textContent = `NT$ ${Math.round(total).toLocaleString()}`;
   document.getElementById('finalTotal').textContent   = Math.round(total).toLocaleString();
 
-  const count = cartItems.filter(i => i.price && parseFloat(i.price) > 0).length;
+  const count = cartItems.filter(i=>i.price&&parseFloat(i.price)>0).length;
   document.getElementById('totalSub').textContent =
-    count > 0 ? `共 ${count} 件商品，外幣合計 ${totalForeign.toLocaleString()} ${currency}` : '';
+    count>0 ? `共 ${count} 件，外幣合計 ${totalForeign.toLocaleString()} ${currency}` : '';
 
-  // 退稅計算
+  // 退稅
   const taxEnabled = document.getElementById('taxRefundEnabled').checked;
   const taxDisplay = document.getElementById('totalTaxDisplay');
-
-  if (taxEnabled && totalForeign > 0) {
-    const taxRate       = parseFloat(document.getElementById('taxRate').value) || 0;
-    const taxMin        = parseFloat(document.getElementById('taxMinAmount').value) || 0;
-    const taxHandleFee  = parseFloat(document.getElementById('taxHandlingFee').value) || 0;
-
+  if (taxEnabled && totalForeign>0) {
+    const taxRate      = parseFloat(document.getElementById('taxRate').value)||0;
+    const taxMin       = parseFloat(document.getElementById('taxMinAmount').value)||0;
+    const taxHandleFee = parseFloat(document.getElementById('taxHandlingFee').value)||0;
     if (totalForeign >= taxMin) {
-      const taxAmt      = totalForeign * (taxRate / 100);
-      const handleAmt   = taxAmt * (taxHandleFee / 100);
-      const refundFor   = taxAmt - handleAmt;
-      const refundTWD   = refundFor * rate;
-      const afterTax    = total - refundTWD;
-
-      document.getElementById('taxAmount').textContent       = `${Math.round(taxAmt).toLocaleString()} ${currency}`;
-      document.getElementById('taxHandling').textContent     = `${Math.round(handleAmt).toLocaleString()} ${currency}`;
-      document.getElementById('taxRefundForeign').textContent= `${Math.round(refundFor).toLocaleString()} ${currency}`;
-      document.getElementById('taxRefundTWD').textContent    = `NT$ ${Math.round(refundTWD).toLocaleString()}`;
-      document.getElementById('finalAfterTax').textContent   = Math.round(afterTax).toLocaleString();
+      const taxAmt    = totalForeign*(taxRate/100);
+      const handleAmt = taxAmt*(taxHandleFee/100);
+      const refundFor = taxAmt - handleAmt;
+      const refundTWD = refundFor * rate;
+      const afterTax  = total - refundTWD;
+      document.getElementById('taxAmount').textContent        = `${Math.round(taxAmt).toLocaleString()} ${currency}`;
+      document.getElementById('taxHandling').textContent      = `${Math.round(handleAmt).toLocaleString()} ${currency}`;
+      document.getElementById('taxRefundForeign').textContent = `${Math.round(refundFor).toLocaleString()} ${currency}`;
+      document.getElementById('taxRefundTWD').textContent     = `NT$ ${Math.round(refundTWD).toLocaleString()}`;
+      document.getElementById('finalAfterTax').textContent    = Math.round(afterTax).toLocaleString();
       taxDisplay.classList.add('show');
     } else {
-      document.getElementById('taxAmount').textContent       = '未達門檻';
-      document.getElementById('taxHandling').textContent     = '-';
-      document.getElementById('taxRefundForeign').textContent= '-';
-      document.getElementById('taxRefundTWD').textContent    = '-';
+      ['taxAmount','taxHandling','taxRefundForeign','taxRefundTWD'].forEach(id=>{
+        document.getElementById(id).textContent='未達門檻';
+      });
       taxDisplay.classList.remove('show');
     }
   } else {
@@ -1119,31 +1291,112 @@ function calculateTotal() {
   }
 }
 
-// ==================== OCR ====================
-function handleReceiptUpload(event) {
-  const file = event.target.files[0];
-  if (!file || ocrProcessing) return;
+// ══════════════════════════════════════
+// 照片處理（壓縮技術）
+// ══════════════════════════════════════
+function handlePhotoUpload(event) {
+  const files = Array.from(event.target.files);
+  if (!files.length) return;
+
+  const status = document.getElementById('ocrStatus');
+  status.className = 'ocr-status processing';
+  status.textContent = '🔄 正在處理照片...';
+
+  // 處理每張照片
+  let processedCount = 0;
+  files.forEach((file, index) => {
+    compressImage(file, (compressedDataUrl) => {
+      const type = index === 0 ? 'receipt' : 'product'; // 第一張預設為收據
+      addPhoto(compressedDataUrl, type, file.name);
+      
+      processedCount++;
+      if (processedCount === files.length) {
+        // 全部處理完成，對第一張進行 OCR
+        if (currentPhotos.length > 0 && currentPhotos[0].type === 'receipt') {
+          performOCR(currentPhotos[0].dataUrl);
+        } else {
+          status.className = 'ocr-status success';
+          status.textContent = `✅ 已上傳 ${files.length} 張照片！`;
+        }
+      }
+    });
+  });
+
+  event.target.value = '';
+}
+
+// 照片壓縮函數
+function compressImage(file, callback) {
   const reader = new FileReader();
   reader.onload = e => {
-    const preview = document.getElementById('receiptPreview');
-    preview.src = e.target.result;
-    preview.style.display = 'block';
-    performOCR(e.target.result);
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const MAX_WIDTH = 800;
+      let { width, height } = img;
+      
+      if (width > MAX_WIDTH) {
+        height = Math.round(height * MAX_WIDTH / width);
+        width = MAX_WIDTH;
+      }
+      
+      canvas.width = width;
+      canvas.height = height;
+      
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+      
+      // 轉換為 Base64 (品質 0.8)
+      const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+      callback(compressedDataUrl);
+    };
+    img.src = e.target.result;
   };
   reader.readAsDataURL(file);
 }
 
+function addPhoto(dataUrl, type, name) {
+  currentPhotos.push({ dataUrl, type, name });
+  renderPhotoGrid();
+}
+
+function removePhoto(idx) {
+  currentPhotos.splice(idx, 1);
+  renderPhotoGrid();
+}
+
+function renderPhotoGrid() {
+  const grid = document.getElementById('photoGrid');
+  if (!currentPhotos.length) { grid.innerHTML=''; return; }
+  grid.innerHTML = currentPhotos.map((p, idx) => `
+    <div>
+      <div class="photo-thumb-wrap">
+        <img class="photo-thumb" src="${p.dataUrl}"
+          onclick="openLightbox('${p.dataUrl}','${p.type==='receipt'?'收據':'商品照片'}')"
+          alt="${p.type}">
+        <button class="photo-thumb-del" onclick="removePhoto(${idx})">✕</button>
+        <div class="photo-thumb-label">${p.type==='receipt'?'📄 收據':'📦 商品'}</div>
+      </div>
+      <select onchange="currentPhotos[${idx}].type=this.value;renderPhotoGrid()"
+        style="width:100%;margin-top:4px;padding:4px 6px;border:1px solid var(--border);border-radius:6px;font-size:0.72rem">
+        <option value="receipt" ${p.type==='receipt'?'selected':''}>📄 收據</option>
+        <option value="product" ${p.type==='product'?'selected':''}>📦 商品照</option>
+      </select>
+    </div>`).join('');
+}
+
+// ── OCR ──
 function performOCR(imageData) {
   ocrProcessing = true;
   const status = document.getElementById('ocrStatus');
   status.className = 'ocr-status processing';
-  status.textContent = '🔄 正在辨識收據內容，請稍候...';
+  status.textContent = '🔄 正在辨識收據內容...';
   Tesseract.recognize(imageData, 'eng+chi_tra', {
     logger: m => {
-      if (m.status === 'recognizing text')
-        status.textContent = `🔄 辨識進度：${Math.round(m.progress * 100)}%`;
+      if (m.status==='recognizing text')
+        status.textContent = `🔄 辨識進度：${Math.round(m.progress*100)}%`;
     }
-  }).then(({ data: { text } }) => {
+  }).then(({ data:{ text } }) => {
     ocrProcessing = false;
     status.className = 'ocr-status success';
     status.textContent = '✅ 辨識完成！請確認填入的資訊';
@@ -1157,6 +1410,9 @@ function performOCR(imageData) {
 
 function parseOCRResult(text) {
   const patterns = [
+    /총계[：:\s]*([0-9,]+)/i,
+    /합계[：:\s]*([0-9,]+)/i,
+    /총액[：:\s]*([0-9,]+)/i,
     /總計[：:\s]*([0-9,]+\.?\d*)/i,
     /total[：:\s]*\$?\s*([0-9,.]+)/i,
     /¥\s*([0-9,]+)/,
@@ -1167,89 +1423,92 @@ function parseOCRResult(text) {
   let amount = null;
   for (const p of patterns) {
     const m = text.match(p);
-    if (m) { amount = parseFloat(m[1].replace(/,/g, '')); break; }
+    if (m) { amount = parseFloat(m[1].replace(/,/g,'')); break; }
   }
   if (!amount) {
     const nums = text.match(/\d+\.?\d*/g);
     if (nums) amount = Math.max(...nums.map(Number));
   }
-  if (amount > 0 && cartItems.length > 0) {
+  if (amount>0 && cartItems.length>0) {
     cartItems[0].price = amount;
     renderCartItems();
   }
-  const lines = text.split('\n').filter(l => l.trim());
-  if (lines.length > 0 && !document.getElementById('storeName').value)
-    document.getElementById('storeName').value = lines[0].trim().substring(0, 25);
+  const lines = text.split('\n').filter(l=>l.trim());
+  if (lines.length>0 && !document.getElementById('storeName').value)
+    document.getElementById('storeName').value = lines[0].trim().substring(0,25);
 }
 
-// ==================== 新增 / 編輯 ====================
+// ── 燈箱 ──
+function openLightbox(src, caption) {
+  document.getElementById('lightboxImg').src     = src;
+  document.getElementById('lightboxCaption').textContent = caption;
+  document.getElementById('lightbox').classList.add('show');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('show');
+}
+
+// ==================== 儲存支出 ====================
 function saveExpense() {
-  const storeName = document.getElementById('storeName').value.trim();
+  const storeName    = document.getElementById('storeName').value.trim();
   const totalForeign = getCartTotal();
-  const currency  = document.getElementById('currency').value;
-  const rate      = parseFloat(document.getElementById('exchangeRate').value);
-  const validItems = cartItems.filter(i => i.name || (i.price && parseFloat(i.price) > 0));
+  const currency     = document.getElementById('currency').value;
+  const rate         = parseFloat(document.getElementById('exchangeRate').value);
+  const validItems   = cartItems.filter(i => i.name||(i.price&&parseFloat(i.price)>0));
 
   if (!validItems.length) { alert('⚠️ 請至少填寫一筆商品資訊'); return; }
-  if (totalForeign <= 0)  { alert('⚠️ 請輸入有效的商品單價'); return; }
+  if (totalForeign<=0)    { alert('⚠️ 請輸入有效的商品單價'); return; }
 
   const base    = totalForeign * rate;
-  const feeRate = currentPaymentMethod === 'credit'
-    ? (parseFloat(document.getElementById('feeRate').value) || 0) : 0;
-  const fee   = base * (feeRate / 100);
+  const feeRate = currentPaymentMethod==='credit'
+    ? (parseFloat(document.getElementById('feeRate').value)||0) : 0;
+  const fee   = base*(feeRate/100);
   const total = base + fee;
 
-  // 退稅
   const taxEnabled = document.getElementById('taxRefundEnabled').checked;
   let taxData = null;
   if (taxEnabled) {
-    const taxRate      = parseFloat(document.getElementById('taxRate').value) || 0;
-    const taxMin       = parseFloat(document.getElementById('taxMinAmount').value) || 0;
-    const taxHandleFee = parseFloat(document.getElementById('taxHandlingFee').value) || 0;
+    const taxRate      = parseFloat(document.getElementById('taxRate').value)||0;
+    const taxMin       = parseFloat(document.getElementById('taxMinAmount').value)||0;
+    const taxHandleFee = parseFloat(document.getElementById('taxHandlingFee').value)||0;
     const country      = document.getElementById('taxCountry').value;
-    if (totalForeign >= taxMin) {
-      const taxAmt    = totalForeign * (taxRate / 100);
-      const handleAmt = taxAmt * (taxHandleFee / 100);
+    if (totalForeign>=taxMin) {
+      const taxAmt    = totalForeign*(taxRate/100);
+      const handleAmt = taxAmt*(taxHandleFee/100);
       const refundFor = taxAmt - handleAmt;
       const refundTWD = refundFor * rate;
-      taxData = { country, taxRate, taxMin, taxHandleFee, taxAmt, handleAmt, refundFor, refundTWD, afterTax: total - refundTWD };
+      taxData = { country, taxRate, taxMin, taxHandleFee, taxAmt, handleAmt, refundFor, refundTWD, afterTax: total-refundTWD };
     }
   }
 
   const exp = {
-    id: editingId || Date.now(),
+    id:            editingId || Date.now(),
     date:          document.getElementById('expenseDate').value,
     storeName,
     items:         validItems.map(i => ({
       id:       i.id,
       category: i.category,
-      name:     i.name || '未命名商品',
-      qty:      parseInt(i.qty) || 1,
-      price:    parseFloat(i.price) || 0,
-      subtotal: (parseFloat(i.price)||0) * (parseInt(i.qty)||1)
+      name:     i.name||'未命名商品',
+      qty:      parseInt(i.qty)||1,
+      price:    parseFloat(i.price)||0,
+      subtotal: (parseFloat(i.price)||0)*(parseInt(i.qty)||1)
     })),
-    totalForeign,
-    currency,
-    exchangeRate:  rate,
+    totalForeign, currency, exchangeRate: rate,
     paymentMethod: currentPaymentMethod,
-    cardName:      currentPaymentMethod === 'credit' ? document.getElementById('cardName').value.trim() : '',
-    feeRate,
-    baseAmount:    base,
-    fee,
-    total,
-    taxData,
+    cardName:      currentPaymentMethod==='credit' ? document.getElementById('cardName').value.trim() : '',
+    feeRate, baseAmount: base, fee, total, taxData,
     payer:         selectedPayer,
-    note:          document.getElementById('expenseNote').value.trim()
+    note:          document.getElementById('expenseNote').value.trim(),
+    photos:        currentPhotos.map(p => ({ dataUrl: p.dataUrl, type: p.type }))
   };
 
   if (editingId) {
-    const idx = expenses.findIndex(e => e.id === editingId);
-    if (idx !== -1) expenses[idx] = exp;
+    const idx = expenses.findIndex(e=>e.id===editingId);
+    if (idx!==-1) expenses[idx] = exp;
     alert('✅ 記錄已更新！');
   } else {
     expenses.push(exp);
-    const itemNames = validItems.map(i => i.name || '商品').join('、');
-    alert(`✅ 已新增支出！\n商店：${storeName || '未填寫'}\n商品：${itemNames}\n台幣：NT$ ${Math.round(total).toLocaleString()}${taxData ? `\n退稅後：NT$ ${Math.round(taxData.afterTax).toLocaleString()}` : ''}`);
+    alert(`✅ 已新增支出！\n商店：${storeName||'未填寫'}\n台幣：NT$ ${Math.round(total).toLocaleString()}${taxData?`\n退稅後：NT$ ${Math.round(taxData.afterTax).toLocaleString()}`:''}${currentPhotos.length>0?`\n📷 已附 ${currentPhotos.length} 張照片`:''}`);
   }
 
   saveStoreHistory(storeName);
@@ -1259,202 +1518,185 @@ function saveExpense() {
   renderStats();
 }
 
+// ==================== 編輯 ====================
 function editExpense(id) {
-  const exp = expenses.find(e => e.id === id);
+  const exp = expenses.find(e=>e.id===id);
   if (!exp) return;
   editingId = id;
 
-  document.getElementById('expenseDate').value     = exp.date;
-  document.getElementById('storeName').value        = exp.storeName || '';
-  document.getElementById('currency').value         = exp.currency;
-  document.getElementById('exchangeRate').value     = exp.exchangeRate;
-  document.getElementById('expenseNote').value      = exp.note || '';
+  document.getElementById('expenseDate').value  = exp.date;
+  document.getElementById('storeName').value    = exp.storeName||'';
+  document.getElementById('currency').value     = exp.currency;
+  document.getElementById('exchangeRate').value = exp.exchangeRate;
+  document.getElementById('expenseNote').value  = exp.note||'';
 
-  // 還原購物車
-  cartItems = exp.items.map(i => ({ 
-    id: i.id || Date.now() + Math.random(), 
-    name: i.name, 
-    qty: i.qty, 
-    price: i.price,
-    category: i.category || '購物'
+  cartItems = exp.items.map(i=>({
+    id: i.id||Date.now()+Math.random(),
+    name: i.name, qty: i.qty, price: i.price, category: i.category||'購物'
   }));
   renderCartItems();
 
-  selectPaymentMethod(exp.paymentMethod);
-  if (exp.paymentMethod === 'credit') {
-    document.getElementById('cardName').value = exp.cardName || '';
-    document.getElementById('feeRate').value  = exp.feeRate  || 0;
-  }
+  currentPhotos = (exp.photos||[]).map(p=>({ dataUrl:p.dataUrl, type:p.type }));
+  renderPhotoGrid();
 
+  selectPaymentMethod(exp.paymentMethod);
+  if (exp.paymentMethod==='credit') {
+    document.getElementById('cardName').value = exp.cardName||'';
+    document.getElementById('feeRate').value  = exp.feeRate||0;
+  }
   if (exp.taxData) {
     document.getElementById('taxRefundEnabled').checked = true;
-    document.getElementById('taxCountry').value         = exp.taxData.country || 'JP';
+    document.getElementById('taxCountry').value         = exp.taxData.country||'JP';
     document.getElementById('taxRate').value            = exp.taxData.taxRate;
     document.getElementById('taxMinAmount').value       = exp.taxData.taxMin;
     document.getElementById('taxHandlingFee').value     = exp.taxData.taxHandleFee;
     toggleTaxPanel();
   }
-
-  if (exp.payer && payers.includes(exp.payer)) {
-    selectedPayer = exp.payer;
-    renderPayerTags();
-  }
+  if (exp.payer&&payers.includes(exp.payer)) { selectedPayer=exp.payer; renderPayerTags(); }
 
   calculateTotal();
-
   document.getElementById('formTitle').textContent    = '✏️ 編輯支出';
   document.getElementById('submitBtn').textContent    = '💾 儲存修改';
   document.getElementById('submitBtn').className      = 'btn btn-warning';
   document.getElementById('cancelBtn').style.display  = 'block';
-  document.getElementById('receiptCard').style.display= 'none';
-
   switchTab('add', document.querySelector('.tab-btn'));
-  window.scrollTo(0, 0);
+  window.scrollTo(0,0);
 }
 
 function deleteExpense(id) {
-  const exp = expenses.find(e => e.id === id);
+  const exp = expenses.find(e=>e.id===id);
   if (!exp) return;
-  if (!confirm(`⚠️ 確定刪除「${exp.storeName || exp.items[0]?.name || '此筆記錄'}」？`)) return;
-  expenses = expenses.filter(e => e.id !== id);
-  saveExpenses();
-  renderExpenseList();
-  renderStats();
-  if (editingId === id) cancelEdit();
+  if (!confirm(`⚠️ 確定刪除「${exp.storeName||'此筆記錄'}」？`)) return;
+  expenses = expenses.filter(e=>e.id!==id);
+  saveExpenses(); renderExpenseList(); renderStats();
+  if (editingId===id) cancelEdit();
 }
 
 function toggleDetail(id) {
-  const el = document.getElementById(`detail-${id}`);
-  if (el) el.classList.toggle('show');
+  document.getElementById(`detail-${id}`)?.classList.toggle('show');
 }
 
 function cancelEdit() {
-  editingId = null;
-  clearForm();
+  editingId = null; clearForm();
   document.getElementById('formTitle').textContent    = '💰 支出資訊';
   document.getElementById('submitBtn').textContent    = '➕ 新增這筆支出';
   document.getElementById('submitBtn').className      = 'btn btn-primary';
   document.getElementById('cancelBtn').style.display  = 'none';
-  document.getElementById('receiptCard').style.display= 'block';
 }
 
 function clearForm() {
-  document.getElementById('storeName').value    = '';
-  document.getElementById('expenseNote').value  = '';
-  document.getElementById('cardName').value     = '';
-  document.getElementById('receiptFile').value  = '';
-  document.getElementById('receiptPreview').style.display = 'none';
+  document.getElementById('storeName').value   = '';
+  document.getElementById('expenseNote').value = '';
+  document.getElementById('cardName').value    = '';
   document.getElementById('ocrStatus').className = 'ocr-status';
   document.getElementById('taxRefundEnabled').checked = false;
   document.getElementById('taxPanel').classList.remove('show');
   document.getElementById('totalTaxDisplay').classList.remove('show');
-  cartItems = [];
+  cartItems = []; currentPhotos = [];
+  renderPhotoGrid();
   addCartItem();
-  setTodayDate();
-  onCurrencyChange();
+  setTodayDate(); onCurrencyChange();
 }
 
 function saveExpenses() {
   localStorage.setItem('travelExpenses_v4', JSON.stringify(expenses));
 }
 
-// ==================== 誰付款 ====================
+// ==================== 付款人 ====================
 function renderPayerTags() {
-  const container = document.getElementById('payerTags');
-  container.innerHTML = payers.map(p => `
-    <div class="payer-tag ${p === selectedPayer ? 'selected' : ''}" onclick="selectPayer('${p}')">
+  document.getElementById('payerTags').innerHTML = payers.map(p=>`
+    <div class="payer-tag ${p===selectedPayer?'selected':''}" onclick="selectPayer('${p}')">
       👤 ${p}
-      ${payers.length > 1 ? `<span onclick="removePayer(event,'${p}')" style="margin-left:6px;opacity:0.6;font-size:0.85rem">✕</span>` : ''}
+      ${payers.length>1?`<span onclick="removePayer(event,'${p}')" style="margin-left:5px;opacity:.6;font-size:.82rem">✕</span>`:''}
     </div>`).join('');
 }
-
-function selectPayer(name) { selectedPayer = name; renderPayerTags(); }
-
+function selectPayer(name) { selectedPayer=name; renderPayerTags(); }
 function addPayer() {
-  const input = document.getElementById('newPayerInput');
-  const name  = input.value.trim();
+  const input=document.getElementById('newPayerInput');
+  const name=input.value.trim();
   if (!name) return;
   if (payers.includes(name)) { alert('此成員已存在'); return; }
-  payers.push(name);
-  selectedPayer = name;
-  localStorage.setItem('travelPayers_v4', JSON.stringify(payers));
-  renderPayerTags();
-  updatePayerFilter();
-  input.value = '';
+  payers.push(name); selectedPayer=name;
+  localStorage.setItem('travelPayers_v4',JSON.stringify(payers));
+  renderPayerTags(); input.value='';
 }
-
-function removePayer(event, name) {
+function removePayer(event,name) {
   event.stopPropagation();
-  if (payers.length <= 1) { alert('至少需要保留一位成員'); return; }
+  if (payers.length<=1) { alert('至少需要保留一位成員'); return; }
   if (!confirm(`確定移除「${name}」？`)) return;
-  payers = payers.filter(p => p !== name);
-  if (selectedPayer === name) selectedPayer = payers[0];
-  localStorage.setItem('travelPayers_v4', JSON.stringify(payers));
+  payers=payers.filter(p=>p!==name);
+  if (selectedPayer===name) selectedPayer=payers[0];
+  localStorage.setItem('travelPayers_v4',JSON.stringify(payers));
   renderPayerTags();
-  updatePayerFilter();
 }
 
-function updatePayerFilter() {
-  // 預留給篩選功能使用
-}
-
-// ==================== 明細列表 ====================
+// ==================== 明細 ====================
 function renderExpenseList() {
   const container = document.getElementById('expenseList');
   if (!expenses.length) {
-    container.innerHTML = `
-      <div style="text-align:center;color:#999;padding:35px">
-        <div style="font-size:2.2rem;margin-bottom:10px">🧾</div>
-        <p>尚無記錄</p>
-      </div>`;
+    container.innerHTML=`<div style="text-align:center;color:#aaa;padding:35px"><div style="font-size:2.2rem;margin-bottom:10px">🧾</div><p>尚無記錄</p></div>`;
     return;
   }
-
-  const payIcon = { credit:'💳', cash:'💵', transit:'🚇' };
-  const payName = { credit:'信用卡', cash:'現金', transit:'交通卡' };
+  const payIcon={credit:'💳',cash:'💵',transit:'🚇'};
+  const payName={credit:'信用卡',cash:'現金',transit:'交通卡'};
 
   container.innerHTML = expenses
-    .sort((a,b) => new Date(b.date) - new Date(a.date))
+    .sort((a,b)=>new Date(b.date)-new Date(a.date))
     .map(exp => {
-      const taxBadge   = exp.taxData   ? `<span class="badge badge-tax">💰 退稅</span>` : '';
-      const payerBadge = exp.payer     ? `<span class="badge badge-payer">👤 ${exp.payer}</span>` : '';
-      const itemCount  = exp.items?.length || 0;
-      const itemSummary= exp.items?.slice(0,2).map(i=>`${i.name}${i.qty>1?` ×${i.qty}`:''}`).join('、') +
-        (itemCount > 2 ? `…等${itemCount}件` : '');
+      const taxBadge  = exp.taxData ? `<span class="badge badge-tax">💰 退稅</span>` : '';
+      const payBadge  = exp.payer   ? `<span class="badge badge-payer">👤 ${exp.payer}</span>` : '';
+      const iCount    = exp.items?.length||0;
+      const iSummary  = exp.items?.slice(0,2).map(i=>`${i.name}${i.qty>1?` ×${i.qty}`:''}`).join('、')
+        + (iCount>2?`…等${iCount}件`:'');
+      const photos    = exp.photos||[];
       return `
-        <div class="expense-item">
-          <div class="expense-main">
+      <div class="expense-item">
+        <div class="expense-main">
+          <div class="expense-top">
             <div class="expense-info">
-              ${exp.storeName ? `<div class="expense-store">🏪 ${exp.storeName}</div>` : ''}
-              <h4>${itemSummary || '未命名'}${taxBadge}${payerBadge}</h4>
+              ${exp.storeName?`<div class="expense-store">🏪 ${exp.storeName}</div>`:''}
+              <h4>${iSummary||'未命名'}${taxBadge}${payBadge}</h4>
               <div class="expense-meta">
                 📅 ${exp.date}<br>
-                ${payIcon[exp.paymentMethod]} ${exp.paymentMethod==='credit'&&exp.cardName ? exp.cardName : payName[exp.paymentMethod]}
-                ${exp.note ? `｜ 💬 ${exp.note}` : ''}
+                ${payIcon[exp.paymentMethod]} ${exp.paymentMethod==='credit'&&exp.cardName?exp.cardName:payName[exp.paymentMethod]}
+                ${exp.note?`｜ 💬 ${exp.note}`:''}
               </div>
               <div class="action-btns">
-                ${itemCount > 1 ? `<button class="action-btn btn-toggle" onclick="toggleDetail(${exp.id})">📋 明細</button>` : ''}
+                ${iCount>1?`<button class="action-btn btn-toggle" onclick="toggleDetail(${exp.id})">📋 明細</button>`:''}
                 <button class="action-btn btn-edit"   onclick="editExpense(${exp.id})">✏️ 編輯</button>
                 <button class="action-btn btn-delete" onclick="deleteExpense(${exp.id})">🗑️ 刪除</button>
               </div>
             </div>
             <div class="expense-amount">
-              <div style="font-size:0.82rem;color:#bbb">${exp.totalForeign.toLocaleString()} ${exp.currency}</div>
+              <div style="font-size:.78rem;color:#ccc">${exp.totalForeign.toLocaleString()} ${exp.currency}</div>
               <div style="color:var(--primary);font-size:1rem">NT$ ${Math.round(exp.total).toLocaleString()}</div>
-              ${exp.taxData ? `<div style="font-size:0.78rem;color:#FF6B9D">退稅後 NT$ ${Math.round(exp.taxData.afterTax).toLocaleString()}</div>` : ''}
-              ${exp.fee>0 ? `<div style="font-size:0.72rem;color:#bbb">含手續費 ${exp.feeRate}%</div>` : ''}
+              ${exp.taxData?`<div style="font-size:.75rem;color:#FF6B9D">退後 NT$ ${Math.round(exp.taxData.afterTax).toLocaleString()}</div>`:''}
+              ${exp.fee>0?`<div style="font-size:.7rem;color:#ccc">手續費 ${exp.feeRate}%</div>`:''}
             </div>
           </div>
-          ${itemCount > 1 ? `
-          <div class="expense-items-detail" id="detail-${exp.id}">
-            <div style="font-weight:700;font-size:0.82rem;margin-bottom:6px;color:var(--primary)">📋 商品明細</div>
-            ${exp.items.map(i => `
-              <div class="detail-item">
-                <span>${i.name}${i.qty>1?` ×${i.qty}`:''} <span class="badge">${i.category}</span></span>
-                <span>${i.subtotal.toLocaleString()} ${exp.currency}</span>
-              </div>`).join('')}
-          </div>` : ''}
-        </div>`;
+        </div>
+
+        ${photos.length>0 ? `
+        <div class="expense-photos">
+          ${photos.map(p=>`
+            <div>
+              <img class="expense-photo-thumb" src="${p.dataUrl}"
+                onclick="openLightbox('${p.dataUrl}','${p.type==='receipt'?'收據':'商品照片'}')"
+                alt="${p.type}">
+              <div class="expense-photo-label">${p.type==='receipt'?'📄 收據':'📦 商品'}</div>
+            </div>`).join('')}
+        </div>` : ''}
+
+        ${iCount>1?`
+        <div class="expense-items-detail" id="detail-${exp.id}">
+          <div style="font-weight:700;font-size:.8rem;margin-bottom:6px;color:var(--primary)">📋 商品明細</div>
+          ${exp.items.map(i=>`
+            <div class="detail-item">
+              <span>${i.name}${i.qty>1?` ×${i.qty}`:''} <span style="background:rgba(108,99,255,.1);color:var(--primary);padding:1px 6px;border-radius:6px;font-size:.7rem">${i.category}</span></span>
+              <span>${i.subtotal.toLocaleString()} ${exp.currency}</span>
+            </div>`).join('')}
+        </div>`:''}
+      </div>`;
     }).join('');
 }
 
@@ -1462,197 +1704,139 @@ function renderExpenseList() {
 function renderStats() {
   const container = document.getElementById('statsContent');
   if (!expenses.length) {
-    container.innerHTML = `
-      <div style="text-align:center;color:#999;padding:35px">
-        <div style="font-size:2.2rem;margin-bottom:10px">📊</div>
-        <p>新增支出後即可查看統計</p>
-      </div>`;
+    container.innerHTML=`<div style="text-align:center;color:#aaa;padding:35px"><div style="font-size:2.2rem;margin-bottom:10px">📊</div><p>新增支出後即可查看統計</p></div>`;
     return;
   }
+  const total      = expenses.reduce((s,e)=>s+e.total,0);
+  const totalFee   = expenses.reduce((s,e)=>s+e.fee,0);
+  const totalTax   = expenses.reduce((s,e)=>s+(e.taxData?.refundTWD||0),0);
+  const totalItems = expenses.reduce((s,e)=>s+(e.items?.length||1),0);
+  const catStats={}, payStats={}, payerStats={}, storeStats={};
 
-  const total      = expenses.reduce((s,e) => s + e.total, 0);
-  const totalFee   = expenses.reduce((s,e) => s + e.fee,   0);
-  const totalTax   = expenses.reduce((s,e) => s + (e.taxData?.refundTWD||0), 0);
-  const totalItems = expenses.reduce((s,e) => s + (e.items?.length||1), 0);
-
-  const catStats   = {};
-  const payStats   = {};
-  const payerStats = {};
-  const storeStats = {};
-
-  expenses.forEach(e => {
-    payStats[e.paymentMethod] = (payStats[e.paymentMethod]||0) + e.total;
-    const p = e.payer||'未記錄';
-    payerStats[p] = (payerStats[p]||0) + e.total;
-    if (e.storeName) storeStats[e.storeName] = (storeStats[e.storeName]||0) + e.total;
-    
-    // 按商品分類統計
-    e.items?.forEach(item => {
-      const itemTWD = (item.subtotal / e.totalForeign) * e.total;
-      catStats[item.category] = (catStats[item.category]||0) + itemTWD;
+  expenses.forEach(e=>{
+    payStats[e.paymentMethod]=(payStats[e.paymentMethod]||0)+e.total;
+    const p=e.payer||'未記錄';
+    payerStats[p]=(payerStats[p]||0)+e.total;
+    if (e.storeName) storeStats[e.storeName]=(storeStats[e.storeName]||0)+e.total;
+    e.items?.forEach(item=>{
+      const itemTWD=(item.subtotal/e.totalForeign)*e.total;
+      catStats[item.category]=(catStats[item.category]||0)+itemTWD;
     });
   });
 
-  const payName = { credit:'💳 信用卡', cash:'💵 現金', transit:'🚇 交通卡' };
+  const payName={credit:'💳 信用卡',cash:'💵 現金',transit:'🚇 交通卡'};
+  const rows=(obj,max=8)=>Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,max).map(([k,v])=>{
+    const pct=Math.round(v/total*100);
+    return `<div class="stat-row"><span style="font-weight:600">${k}</span>
+      <span style="font-weight:700;color:var(--primary)">NT$ ${Math.round(v).toLocaleString()} <span style="color:#ccc;font-size:.75rem">${pct}%</span></span></div>`;
+  }).join('');
 
-  const statRows = (obj, max=8) => Object.entries(obj)
-    .sort((a,b)=>b[1]-a[1]).slice(0,max)
-    .map(([k,v]) => {
-      const pct = Math.round(v/total*100);
-      return `
-        <div class="stat-row">
-          <span style="font-weight:600;font-size:0.85rem">${k}</span>
-          <span style="font-weight:700;color:var(--primary);font-size:0.85rem">
-            NT$ ${Math.round(v).toLocaleString()} <span style="color:#bbb;font-size:0.75rem">${pct}%</span>
-          </span>
-        </div>`;
-    }).join('');
-
-  container.innerHTML = `
+  container.innerHTML=`
     <div class="stat-grid">
       <div class="stat-card" style="background:linear-gradient(135deg,var(--primary),#9B59B6)">
-        <div style="font-size:0.85rem">💰 總支出</div>
+        <div style="font-size:.82rem">💰 總支出</div>
         <div class="value">NT$ ${Math.round(total).toLocaleString()}</div>
         <div class="label">${expenses.length} 筆 / ${totalItems} 件</div>
       </div>
       <div class="stat-card" style="background:linear-gradient(135deg,var(--warning),#F39C12)">
-        <div style="font-size:0.85rem">💳 手續費</div>
+        <div style="font-size:.82rem">💳 手續費</div>
         <div class="value">NT$ ${Math.round(totalFee).toLocaleString()}</div>
         <div class="label">佔 ${total>0?Math.round(totalFee/total*100):0}%</div>
       </div>
       <div class="stat-card" style="background:linear-gradient(135deg,#FF6B9D,#C44569)">
-        <div style="font-size:0.85rem">💰 累計退稅</div>
+        <div style="font-size:.82rem">💰 累計退稅</div>
         <div class="value">NT$ ${Math.round(totalTax).toLocaleString()}</div>
-        <div class="label">退稅後省 ${total>0?Math.round(totalTax/total*100):0}%</div>
+        <div class="label">省 ${total>0?Math.round(totalTax/total*100):0}%</div>
       </div>
     </div>
-
-    <div class="stat-block">
-      <h3>🏷️ 分類支出（按商品計算）</h3>${statRows(catStats)}
-    </div>
-
-    <div class="stat-block">
-      <h3>💳 付款方式</h3>
-      ${statRows(Object.fromEntries(Object.entries(payStats).map(([k,v])=>[payName[k]||k,v])))}
-    </div>
-
-    ${Object.keys(storeStats).length > 0 ? `
-    <div class="stat-block">
-      <h3>🏪 商店消費排行</h3>${statRows(storeStats)}
-    </div>` : ''}
-
-    <div class="stat-block">
-      <h3>👤 成員支出</h3>
-      ${Object.entries(payerStats).sort((a,b)=>b[1]-a[1]).map(([name,amt])=>`
-        <div class="stat-row">
-          <span style="font-weight:700">👤 ${name}</span>
-          <span style="font-weight:700;color:var(--primary)">NT$ ${Math.round(amt).toLocaleString()}</span>
-        </div>`).join('')}
+    <div class="stat-block"><h3>🏷️ 分類支出</h3>${rows(catStats)}</div>
+    <div class="stat-block"><h3>💳 付款方式</h3>${rows(Object.fromEntries(Object.entries(payStats).map(([k,v])=>[payName[k]||k,v])))}</div>
+    ${Object.keys(storeStats).length?`<div class="stat-block"><h3>🏪 商店排行</h3>${rows(storeStats)}</div>`:''}
+    <div class="stat-block"><h3>👤 成員支出</h3>
+      ${Object.entries(payerStats).sort((a,b)=>b[1]-a[1]).map(([n,v])=>`
+        <div class="stat-row"><span style="font-weight:700">👤 ${n}</span>
+        <span style="font-weight:700;color:var(--primary)">NT$ ${Math.round(v).toLocaleString()}</span></div>`).join('')}
     </div>`;
 }
 
 // ==================== 匯出 ====================
 function exportCSV() {
   if (!expenses.length) { alert('尚無記錄可匯出'); return; }
-  const headers = ['日期','商店名稱','商品分類','商品名稱','數量','單價','小計','幣別','匯率','付款方式','卡片名稱','手續費率(%)','基本金額(TWD)','手續費(TWD)','台幣總額','退稅(TWD)','退稅後金額(TWD)','付款人','備註'];
-  const payName = { credit:'信用卡', cash:'現金', transit:'交通卡' };
-  let rows = [];
-  expenses.forEach(exp => {
-    exp.items.forEach((item, idx) => {
+  const headers=['日期','商店名稱','商品分類','商品名稱','數量','單價','小計','幣別','匯率','付款方式','卡片名稱','手續費率(%)','基本金額(TWD)','手續費(TWD)','台幣總額','退稅(TWD)','退稅後(TWD)','付款人','備註','照片數量'];
+  const payName={credit:'信用卡',cash:'現金',transit:'交通卡'};
+  let rows=[];
+  expenses.forEach(exp=>{
+    exp.items.forEach((item,idx)=>{
       rows.push([
-        exp.date,
-        `"${exp.storeName||''}"`,
-        item.category,
-        `"${item.name}"`,
-        item.qty,
-        item.price,
-        item.subtotal,
-        exp.currency,
-        exp.exchangeRate,
-        payName[exp.paymentMethod]||exp.paymentMethod,
-        exp.cardName||'',
-        exp.feeRate||0,
-        idx === 0 ? Math.round(exp.baseAmount) : '',
-        idx === 0 ? Math.round(exp.fee) : '',
-        idx === 0 ? Math.round(exp.total) : '',
-        idx === 0 ? Math.round(exp.taxData?.refundTWD||0) : '',
-        idx === 0 ? Math.round(exp.taxData?.afterTax||exp.total) : '',
+        exp.date,`"${exp.storeName||''}"`,item.category,`"${item.name}"`,
+        item.qty,item.price,item.subtotal,exp.currency,exp.exchangeRate,
+        payName[exp.paymentMethod]||exp.paymentMethod,exp.cardName||'',exp.feeRate||0,
+        idx===0?Math.round(exp.baseAmount):'',
+        idx===0?Math.round(exp.fee):'',
+        idx===0?Math.round(exp.total):'',
+        idx===0?Math.round(exp.taxData?.refundTWD||0):'',
+        idx===0?Math.round(exp.taxData?.afterTax||exp.total):'',
         exp.payer||'',
-        idx === 0 ? `"${exp.note||''}"` : ''
+        idx===0?`"${exp.note||''}"`:'' ,
+        idx===0?(exp.photos?.length||0):''
       ].join(','));
     });
   });
-  const csv = '\uFEFF' + [headers.join(','), ...rows].join('\n');
-  downloadFile(csv, `旅遊記帳_v4_${getDateStr()}.csv`, 'text/csv;charset=utf-8');
+  downloadFile('\uFEFF'+[headers.join(','),...rows].join('\n'),`旅遊記帳_v4_${getDateStr()}.csv`,'text/csv;charset=utf-8');
 }
 
 function exportJSON() {
   if (!expenses.length) { alert('尚無記錄可匯出'); return; }
-  const data = { exportDate: new Date().toISOString(), version: '4.0', payers, storeHistory, expenses };
-  downloadFile(JSON.stringify(data, null, 2), `旅遊記帳備份_v4_${getDateStr()}.json`, 'application/json');
+  const data={exportDate:new Date().toISOString(),version:'4.1',payers,storeHistory,expenses};
+  downloadFile(JSON.stringify(data,null,2),`旅遊記帳備份_v4_${getDateStr()}.json`,'application/json');
 }
 
 function exportText() {
   if (!expenses.length) { alert('尚無記錄可匯出'); return; }
-  const total    = expenses.reduce((s,e)=>s+e.total,0);
-  const totalTax = expenses.reduce((s,e)=>s+(e.taxData?.refundTWD||0),0);
-  const payName  = { credit:'信用卡', cash:'現金', transit:'交通卡' };
-  const catStats = {};
-  const payerStats = {};
-  expenses.forEach(e => {
-    e.items?.forEach(item => {
-      const itemTWD = (item.subtotal / e.totalForeign) * e.total;
-      catStats[item.category] = (catStats[item.category]||0) + itemTWD;
-    });
-    const p = e.payer||'未記錄';
-    payerStats[p] = (payerStats[p]||0) + e.total;
+  const total=expenses.reduce((s,e)=>s+e.total,0);
+  const totalTax=expenses.reduce((s,e)=>s+(e.taxData?.refundTWD||0),0);
+  const payName={credit:'信用卡',cash:'現金',transit:'交通卡'};
+  const catStats={},payerStats={};
+  expenses.forEach(e=>{
+    e.items?.forEach(item=>{ const t=(item.subtotal/e.totalForeign)*e.total; catStats[item.category]=(catStats[item.category]||0)+t; });
+    const p=e.payer||'未記錄'; payerStats[p]=(payerStats[p]||0)+e.total;
   });
-
-  let text = `🌍 旅遊記帳報表 v4.0\n產生時間：${new Date().toLocaleString('zh-TW')}\n${'─'.repeat(38)}\n\n`;
-  text += `📊 總覽\n總支出：NT$ ${Math.round(total).toLocaleString()}\n筆數：${expenses.length} 筆\n`;
-  if (totalTax > 0) text += `累計退稅：NT$ ${Math.round(totalTax).toLocaleString()}\n退稅後實際：NT$ ${Math.round(total-totalTax).toLocaleString()}\n`;
-  text += `\n🏷️ 分類統計\n`;
-  Object.entries(catStats).sort((a,b)=>b[1]-a[1]).forEach(([k,v]) => {
-    text += `  ${k}：NT$ ${Math.round(v).toLocaleString()}\n`;
+  let text=`🌍 旅遊記帳報表 v4.1\n產生時間：${new Date().toLocaleString('zh-TW')}\n${'─'.repeat(36)}\n\n`;
+  text+=`📊 總覽\n總支出：NT$ ${Math.round(total).toLocaleString()}\n筆數：${expenses.length} 筆\n`;
+  if (totalTax>0) text+=`累計退稅：NT$ ${Math.round(totalTax).toLocaleString()}\n退稅後實際：NT$ ${Math.round(total-totalTax).toLocaleString()}\n`;
+  text+=`\n🏷️ 分類統計\n`;
+  Object.entries(catStats).sort((a,b)=>b[1]-a[1]).forEach(([k,v])=>{ text+=`  ${k}：NT$ ${Math.round(v).toLocaleString()}\n`; });
+  text+=`\n👤 成員支出\n`;
+  Object.entries(payerStats).sort((a,b)=>b[1]-a[1]).forEach(([k,v])=>{ text+=`  ${k}：NT$ ${Math.round(v).toLocaleString()}\n`; });
+  text+=`\n${'─'.repeat(36)}\n📋 明細\n\n`;
+  expenses.sort((a,b)=>new Date(a.date)-new Date(b.date)).forEach((e,i)=>{
+    text+=`${i+1}. ${e.date}`;
+    if (e.storeName) text+=` ｜ 🏪 ${e.storeName}`;
+    text+=`\n   ${payName[e.paymentMethod]} ｜ 👤 ${e.payer||'-'}\n`;
+    e.items?.forEach(item=>{ text+=`   • ${item.name}${item.qty>1?` ×${item.qty}`:''} [${item.category}] ${item.subtotal.toLocaleString()} ${e.currency}\n`; });
+    text+=`   合計：${e.totalForeign.toLocaleString()} ${e.currency} → NT$ ${Math.round(e.total).toLocaleString()}`;
+    if (e.taxData) text+=` (退稅後 NT$ ${Math.round(e.taxData.afterTax).toLocaleString()})`;
+    if (e.photos?.length) text+=`\n   📷 附 ${e.photos.length} 張照片`;
+    if (e.note) text+=`\n   備註：${e.note}`;
+    text+='\n\n';
   });
-  text += `\n👤 成員支出\n`;
-  Object.entries(payerStats).sort((a,b)=>b[1]-a[1]).forEach(([k,v]) => {
-    text += `  ${k}：NT$ ${Math.round(v).toLocaleString()}\n`;
-  });
-  text += `\n${'─'.repeat(38)}\n📋 明細\n\n`;
-  expenses.sort((a,b)=>new Date(a.date)-new Date(b.date)).forEach((e,i) => {
-    text += `${i+1}. ${e.date}`;
-    if (e.storeName) text += ` ｜ 🏪 ${e.storeName}`;
-    text += `\n   ${payName[e.paymentMethod]} ｜ 👤 ${e.payer||'-'}\n`;
-    e.items?.forEach(item => {
-      text += `   • ${item.name}${item.qty>1?` ×${item.qty}`:''} [${item.category}] ${item.subtotal.toLocaleString()} ${e.currency}\n`;
-    });
-    text += `   合計：${e.totalForeign.toLocaleString()} ${e.currency} → NT$ ${Math.round(e.total).toLocaleString()}`;
-    if (e.taxData) text += ` (退稅後 NT$ ${Math.round(e.taxData.afterTax).toLocaleString()})`;
-    if (e.note) text += `\n   備註：${e.note}`;
-    text += '\n\n';
-  });
-
-  document.getElementById('textReportArea').style.display = 'block';
-  document.getElementById('textReport').value = text;
+  document.getElementById('textReportArea').style.display='block';
+  document.getElementById('textReport').value=text;
 }
 
 function copyTextReport() {
-  const ta = document.getElementById('textReport');
-  ta.select();
-  document.execCommand('copy');
+  const ta=document.getElementById('textReport'); ta.select(); document.execCommand('copy');
   alert('✅ 已複製到剪貼簿！');
 }
 
 function exportHTML() {
   if (!expenses.length) { alert('尚無記錄可匯出'); return; }
-  const total    = expenses.reduce((s,e)=>s+e.total,0);
-  const totalTax = expenses.reduce((s,e)=>s+(e.taxData?.refundTWD||0),0);
-  const payName  = { credit:'信用卡', cash:'現金', transit:'交通卡' };
-  const rows = expenses.sort((a,b)=>new Date(a.date)-new Date(b.date)).map(e => `
+  const total=expenses.reduce((s,e)=>s+e.total,0);
+  const totalTax=expenses.reduce((s,e)=>s+(e.taxData?.refundTWD||0),0);
+  const payName={credit:'信用卡',cash:'現金',transit:'交通卡'};
+  const rows=expenses.sort((a,b)=>new Date(a.date)-new Date(b.date)).map(e=>`
     <tr>
-      <td>${e.date}</td>
-      <td>${e.storeName||'-'}</td>
+      <td>${e.date}</td><td>${e.storeName||'-'}</td>
       <td>${e.items?.map(i=>`${i.name}${i.qty>1?` ×${i.qty}`:''} [${i.category}]`).join('<br>')||'-'}</td>
       <td>${e.totalForeign.toLocaleString()} ${e.currency}</td>
       <td>${payName[e.paymentMethod]||e.paymentMethod}${e.cardName?`<br><small>${e.cardName}</small>`:''}</td>
@@ -1660,79 +1844,63 @@ function exportHTML() {
       <td style="font-weight:700;color:#6C63FF">NT$ ${Math.round(e.total).toLocaleString()}
         ${e.taxData?`<br><small style="color:#FF6B9D">退稅後 NT$ ${Math.round(e.taxData.afterTax).toLocaleString()}</small>`:''}
       </td>
+      <td>${e.photos?.length?`📷 ${e.photos.length} 張`:'-'}</td>
       <td>${e.note||''}</td>
     </tr>`).join('');
-
-  const html = `<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8">
-<title>旅遊記帳報表 v4.0</title>
+  const html=`<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><title>旅遊記帳報表 v4.1</title>
 <style>body{font-family:'Microsoft JhengHei',sans-serif;max-width:1000px;margin:0 auto;padding:20px;color:#333}
-h1{background:linear-gradient(135deg,#6C63FF,#9B59B6);color:white;padding:20px;border-radius:12px;text-align:center}
-.summary{display:flex;gap:14px;margin:18px 0;flex-wrap:wrap}
+h1{background:linear-gradient(135deg,#6C63FF,#9B59B6);color:white;padding:18px;border-radius:12px;text-align:center}
+.summary{display:flex;gap:12px;margin:16px 0;flex-wrap:wrap}
 .sum-card{flex:1;min-width:130px;padding:14px;border-radius:10px;text-align:center;color:white}
-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:0.88rem}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.86rem}
 th{background:#6C63FF;color:white;padding:9px 7px;text-align:left}
-td{padding:8px 7px;border-bottom:1px solid #eee}
-tr:nth-child(even){background:#f9f9f9}small{font-size:0.78rem}
+td{padding:8px 7px;border-bottom:1px solid #eee}tr:nth-child(even){background:#f9f9f9}
 </style></head><body>
-<h1>🌍 旅遊記帳報表 v4.0</h1>
+<h1>🌍 旅遊記帳報表 v4.1</h1>
 <p style="text-align:center;color:#888;margin-top:8px">產生時間：${new Date().toLocaleString('zh-TW')}</p>
 <div class="summary">
   <div class="sum-card" style="background:linear-gradient(135deg,#6C63FF,#9B59B6)">
-    <div>💰 總支出</div><div style="font-size:1.4rem;font-weight:700;margin:5px 0">NT$ ${Math.round(total).toLocaleString()}</div>
-    <div style="font-size:0.82rem">${expenses.length} 筆記錄</div>
+    <div>💰 總支出</div><div style="font-size:1.35rem;font-weight:700;margin:5px 0">NT$ ${Math.round(total).toLocaleString()}</div>
+    <div style="font-size:.8rem">${expenses.length} 筆記錄</div>
   </div>
   ${totalTax>0?`<div class="sum-card" style="background:linear-gradient(135deg,#FF6B9D,#C44569)">
-    <div>💰 累計退稅</div><div style="font-size:1.4rem;font-weight:700;margin:5px 0">NT$ ${Math.round(totalTax).toLocaleString()}</div>
-    <div style="font-size:0.82rem">退稅後 NT$ ${Math.round(total-totalTax).toLocaleString()}</div>
+    <div>💰 累計退稅</div><div style="font-size:1.35rem;font-weight:700;margin:5px 0">NT$ ${Math.round(totalTax).toLocaleString()}</div>
+    <div style="font-size:.8rem">退稅後 NT$ ${Math.round(total-totalTax).toLocaleString()}</div>
   </div>`:''}
 </div>
 <h2>📋 支出明細</h2>
-<table><thead><tr><th>日期</th><th>商店</th><th>商品</th><th>外幣</th><th>付款</th><th>付款人</th><th>台幣</th><th>備註</th></tr></thead>
+<table><thead><tr><th>日期</th><th>商店</th><th>商品</th><th>外幣</th><th>付款</th><th>付款人</th><th>台幣</th><th>照片</th><th>備註</th></tr></thead>
 <tbody>${rows}</tbody></table></body></html>`;
-
-  downloadFile(html, `旅遊記帳報表_v4_${getDateStr()}.html`, 'text/html;charset=utf-8');
+  downloadFile(html,`旅遊記帳報表_v4_${getDateStr()}.html`,'text/html;charset=utf-8');
 }
 
 function importJSON(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
+  const file=event.target.files[0]; if (!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
     try {
-      const data = JSON.parse(e.target.result);
+      const data=JSON.parse(e.target.result);
       if (!data.expenses) { alert('❌ 檔案格式不正確'); return; }
-      if (!confirm(`確定匯入 ${data.expenses.length} 筆記錄？（將合併到現有記錄）`)) return;
-      const existingIds = new Set(expenses.map(e => e.id));
-      const newExps = data.expenses.filter(e => !existingIds.has(e.id));
-      expenses = [...expenses, ...newExps];
-      if (data.payers) {
-        data.payers.forEach(p => { if (!payers.includes(p)) payers.push(p); });
-        localStorage.setItem('travelPayers_v4', JSON.stringify(payers));
-        renderPayerTags();
-        updatePayerFilter();
-      }
-      if (data.storeHistory) {
-        data.storeHistory.forEach(s => { if (!storeHistory.includes(s)) storeHistory.push(s); });
-        localStorage.setItem('travelStores', JSON.stringify(storeHistory));
-      }
-      saveExpenses();
-      renderExpenseList();
-      renderStats();
+      if (!confirm(`確定匯入 ${data.expenses.length} 筆記錄？`)) return;
+      const ids=new Set(expenses.map(e=>e.id));
+      const newExps=data.expenses.filter(e=>!ids.has(e.id));
+      expenses=[...expenses,...newExps];
+      if (data.payers) { data.payers.forEach(p=>{ if (!payers.includes(p)) payers.push(p); }); localStorage.setItem('travelPayers_v4',JSON.stringify(payers)); renderPayerTags(); }
+      if (data.storeHistory) { data.storeHistory.forEach(s=>{ if (!storeHistory.includes(s)) storeHistory.push(s); }); localStorage.setItem('travelStores',JSON.stringify(storeHistory)); }
+      saveExpenses(); renderExpenseList(); renderStats();
       alert(`✅ 成功匯入 ${newExps.length} 筆新記錄！`);
     } catch { alert('❌ 檔案讀取失敗'); }
   };
   reader.readAsText(file);
 }
 
-function downloadFile(content, filename, mimeType) {
-  const blob = new Blob([content], { type: mimeType });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href = url; a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+function downloadFile(content,filename,mimeType) {
+  const blob=new Blob([content],{type:mimeType});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download=filename;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a); URL.revokeObjectURL(url);
 }
 
 function getDateStr() {
